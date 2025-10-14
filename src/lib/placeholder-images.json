@@ -1,3 +1,88 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-scooter",
+      "description": "Urban scene with an electric scooter",
+      "imageUrl": "https://picsum.photos/seed/1/1200/800",
+      "imageHint": "electric scooter"
+    },
+    {
+      "id": "service-maintenance",
+      "description": "Scooter being serviced",
+      "imageUrl": "https://picsum.photos/seed/2/400/300",
+      "imageHint": "scooter maintenance"
+    },
+    {
+      "id": "service-repair",
+      "description": "Tools for scooter repair",
+      "imageUrl": "https://picsum.photos/seed/3/400/300",
+      "imageHint": "repair tools"
+    },
+    {
+      "id": "service-diagnostics",
+      "description": "Diagnostic equipment connected to a scooter",
+      "imageUrl": "https://picsum.photos/seed/4/400/300",
+      "imageHint": "scooter diagnostics"
+    },
+    {
+      "id": "product-battery",
+      "description": "Electric scooter battery",
+      "imageUrl": "https://picsum.photos/seed/5/400/400",
+      "imageHint": "scooter battery"
+    },
+    {
+      "id": "product-tire",
+      "description": "Electric scooter tire",
+      "imageUrl": "https://picsum.photos/seed/6/400/400",
+      "imageHint": "scooter tire"
+    },
+    {
+      "id": "product-brake",
+      "description": "Electric scooter brake system",
+      "imageUrl": "https://picsum.photos/seed/7/400/400",
+      "imageHint": "scooter brake"
+    },
+    {
+      "id": "product-helmet",
+      "description": "Modern helmet for scooter riders",
+      "imageUrl": "https://picsum.photos/seed/8/400/400",
+      "imageHint": "scooter helmet"
+    },
+    {
+      "id": "about-team",
+      "description": "The Scootix team working together",
+      "imageUrl": "https://picsum.photos/seed/9/600/400",
+      "imageHint": "startup team"
+    },
+    {
+      "id": "testimonial-1",
+      "description": "Happy customer with their scooter",
+      "imageUrl": "https://picsum.photos/seed/10/100/100",
+      "imageHint": "happy person"
+    },
+    {
+      "id": "testimonial-2",
+      "description": "Customer giving a thumbs up",
+      "imageUrl": "https://picsum.photos/seed/11/100/100",
+      "imageHint": "satisfied customer"
+    },
+    {
+      "id": "blog-post-1",
+      "description": "A person cleaning their scooter",
+      "imageUrl": "https://picsum.photos/seed/12/400/250",
+      "imageHint": "scooter cleaning"
+    },
+    {
+      "id": "blog-post-2",
+      "description": "A new model of electric scooter on display",
+      "imageUrl": "https://picsum.photos/seed/13/400/250",
+      "imageHint": "new scooter"
+    },
+    {
+      "id": "blog-post-3",
+      "description": "Close-up of a scooter's wheel and motor",
+      "imageUrl": "https://picsum.photos/seed/14/400/250",
+      "imageHint": "scooter motor"
+    }
+  ]
 }
