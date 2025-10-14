@@ -14,9 +14,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
+import { useCart } from "@/context/cart-context";
 
 export function Header() {
   const { t, setLanguage } = useLanguage();
+  const { cart } = useCart();
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -55,8 +58,13 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
           <Button variant="ghost" size="icon" asChild>
-            <Link href="/cart">
+            <Link href="/cart" className="relative">
                 <ShoppingCart className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                    {totalItems}
+                  </span>
+                )}
                 <span className="sr-only">Shopping Cart</span>
             </Link>
           </Button>
@@ -89,5 +97,3 @@ export function Header() {
     </header>
   );
 }
-
-    

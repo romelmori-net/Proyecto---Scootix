@@ -7,10 +7,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { products } from "@/lib/data";
 import { ShoppingCart } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import { useCart } from "@/context/cart-context";
+import { useToast } from "@/hooks/use-toast";
 
 export default function StorePage() {
   const { t } = useLanguage();
+  const { addToCart } = useCart();
+  const { toast } = useToast();
   const categories = ["all", ...Array.from(new Set(products.map(p => p.category.toLowerCase())))];
+
+  const handleAddToCart = (product: typeof products[0]) => {
+    addToCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    });
+  };
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-20">
@@ -55,7 +67,7 @@ export default function StorePage() {
               </div>
               <div className="flex items-center justify-between mt-4">
                 <p className="text-xl font-bold">${product.price.toFixed(2)}</p>
-                <Button size="sm">
+                <Button size="sm" onClick={() => handleAddToCart(product)}>
                   <ShoppingCart className="mr-2 h-4 w-4" /> {t('add')}
                 </Button>
               </div>

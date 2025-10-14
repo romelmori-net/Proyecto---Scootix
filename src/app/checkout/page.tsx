@@ -9,19 +9,36 @@ import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Truck, Store, CreditCard } from "lucide-react";
 import Image from "next/image";
-import { products } from "@/lib/data";
 import { useLanguage } from "@/context/language-context";
-
-const cartItems = [
-    { ...products[0], quantity: 1 },
-    { ...products[2], quantity: 2 },
-];
+import { useCart } from "@/context/cart-context";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function CheckoutPage() {
   const { t } = useLanguage();
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const shipping = 10.00;
+  const { cart, clearCart } = useCart();
+  const router = useRouter();
+
+  const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const shipping = cart.length > 0 ? 10.00 : 0;
   const total = subtotal + shipping;
+
+  useEffect(() => {
+    if (cart.length === 0) {
+      router.push('/store');
+    }
+  }, [cart, router]);
+
+  const handlePay = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    // In a real app, you would process the payment here
+    clearCart();
+    router.push("/checkout/success");
+  };
+
+  if (cart.length === 0) {
+    return null; // Or a loading spinner
+  }
   
   return (
     <div className="container mx-auto px-4 py-12 md:py-20">
@@ -128,7 +145,7 @@ export default function CheckoutPage() {
             </CardHeader>
             <CardContent>
               <ul className="space-y-4">
-                {cartItems.map(item => (
+                {cart.map(item => (
                   <li key={item.id} className="flex items-center gap-4">
                     <div className="relative">
                       <Image
@@ -169,7 +186,7 @@ export default function CheckoutPage() {
                 <span>${total.toFixed(2)}</span>
               </div>
               <Button asChild size="lg" className="w-full mt-6">
-                <Link href="/checkout/success">{t('payNow')}</Link>
+                <Link href="/checkout/success" onClick={handlePay}>{t('payNow')}</Link>
               </Button>
             </CardContent>
           </Card>

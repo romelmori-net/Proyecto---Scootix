@@ -187,5 +187,10 @@
   "chooseEnterprise": "Choose Enterprise",
   "allRightsReserved": "All rights reserved",
   "privacyPolicy": "Privacy Policy",
-  "termsOfService": "Terms of Service"
+  "termsOfService": "Terms of Service",
+  "addedToCartToastTitle": "Added to cart",
+  "addedToCartToastDescription": "has been added to your cart.",
+  "reviews": "reviews",
+  "productDescriptionPlaceholder": "This is a detailed product description. Talk about its features, benefits, and technical specifications to inform the customer.",
+  "buyNow": "Buy Now"
 }

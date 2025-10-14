@@ -187,5 +187,10 @@
   "chooseEnterprise": "Elegir Empresarial",
   "allRightsReserved": "Todos los derechos reservados",
   "privacyPolicy": "Política de Privacidad",
-  "termsOfService": "Términos de Servicio"
+  "termsOfService": "Términos de Servicio",
+  "addedToCartToastTitle": "Añadido al carrito",
+  "addedToCartToastDescription": "ha sido añadido a tu carrito.",
+  "reviews": "opiniones",
+  "productDescriptionPlaceholder": "Esta es una descripción detallada del producto. Habla sobre sus características, beneficios y especificaciones técnicas para informar al cliente.",
+  "buyNow": "Comprar Ahora"
 }
