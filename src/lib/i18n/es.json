@@ -59,7 +59,7 @@
   "whatIsYourWarranty": "¿Cuál es su garantía en las reparaciones?",
   "weOfferA90Day": "Ofrecemos una garantía de 90 días en todas las piezas y mano de obra de nuestras reparaciones.",
   "howDoesTheHomePickup": "¿Cómo funciona el servicio de recogida a domicilio?",
-  "whenYouBookAService": "Cuando reservas un servicio, puedes seleccionar la opción de recogida. Coordinaremos una hora para recoger tu scooter y devolverlo una vez que el servicio esté completo.",
+  "whenYouBookAService": "Cuando reservas un servicio, puedes seleccionar la opción de recogida. Coordinaremos una hora para recoger tu scooter y devolverlo once el servicio esté completo.",
   "orderManagement": "Gestión de Pedidos",
   "orderManagementDescription": "Ver y gestionar todos los pedidos de los clientes.",
   "blogTitle": "Blog de Scootix",
@@ -184,5 +184,8 @@
   "homeServiceIncluded": "Servicio a domicilio incluido",
   "chooseBasic": "Elegir Básico",
   "choosePro": "Elegir Pro",
-  "chooseEnterprise": "Elegir Empresarial"
+  "chooseEnterprise": "Elegir Empresarial",
+  "allRightsReserved": "Todos los derechos reservados",
+  "privacyPolicy": "Política de Privacidad",
+  "termsOfService": "Términos de Servicio"
 }

@@ -184,5 +184,8 @@
   "homeServiceIncluded": "Home service included",
   "chooseBasic": "Choose Basic",
   "choosePro": "Choose Pro",
-  "chooseEnterprise": "Choose Enterprise"
+  "chooseEnterprise": "Choose Enterprise",
+  "allRightsReserved": "All rights reserved",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service"
 }
