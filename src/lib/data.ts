@@ -3,14 +3,14 @@ import type { ImagePlaceholder } from "@/lib/placeholder-images";
 import { Wrench, BatteryCharging, Search, Truck, Star, HardHat, Cog, Package } from 'lucide-react';
 
 export const navLinks = [
-  { name: 'home', href: '/' },
-  { name: 'services', href: '/services' },
-  { name: 'store', href: '/store' },
-  { name: 'diyKits', href: '/diy-kits' },
-  { name: 'subscriptions', href: '/subscriptions' },
-  { name: 'about', href: '/about' },
-  { name: 'contact', href: '/contact' },
-  { name: 'blog', href: '/blog' },
+  { name: 'home', href: '/', description: 'homeNavDescription' },
+  { name: 'services', href: '/services', description: 'servicesDescription' },
+  { name: 'store', href: '/store', description: 'storeNavDescription' },
+  { name: 'diyKits', href: '/diy-kits', description: 'diyKitsDescription' },
+  { name: 'subscriptions', href: '/subscriptions', description: 'subscriptionsDescription' },
+  { name: 'about', href: '/about', description: 'aboutNavDescription' },
+  { name: 'contact', href: '/contact', description: 'contactNavDescription' },
+  { name: 'blog', href: '/blog', description: 'blogNavDescription' },
 ];
 
 export const valuePropositions = [

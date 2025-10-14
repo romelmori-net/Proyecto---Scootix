@@ -192,5 +192,11 @@
   "addedToCartToastDescription": "has been added to your cart.",
   "reviews": "reviews",
   "productDescriptionPlaceholder": "This is a detailed product description. Talk about its features, benefits, and technical specifications to inform the customer.",
-  "buyNow": "Buy Now"
+  "buyNow": "Buy Now",
+  "servicesDescription": "All our offerings to keep your scooter running.",
+  "diyKitsDescription": "Kits and parts for those who love to get their hands dirty.",
+  "subscriptionsDescription": "Affordable monthly plans to keep your scooter in top shape.",
+  "aboutNavDescription": "Learn more about our mission and team.",
+  "contactNavDescription": "How to reach us.",
+  "blogNavDescription": "Tips, news, and guides."
 }
