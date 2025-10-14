@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -7,8 +9,10 @@ import { Star } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { valuePropositions, services, testimonials } from "@/lib/data";
 import * as Icons from "@/components/icons";
+import { useLanguage } from "@/context/language-context";
 
 export default function Home() {
+  const { t } = useLanguage();
   const heroImage = PlaceHolderImages.find(img => img.id === 'hero-scooter');
 
   return (
@@ -28,17 +32,17 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white p-4">
           <h1 className="text-4xl md:text-6xl font-headline font-bold drop-shadow-lg">
-            Reliable Maintenance & Repair for Electric Scooters
+            {t('heroTitle')}
           </h1>
           <p className="mt-4 text-lg md:text-2xl font-light text-primary-foreground/80 drop-shadow-md">
-            Energy that moves you.
+            {t('heroSubtitle')}
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <Button size="lg" asChild>
-              <Link href="/booking">Book Appointment</Link>
+              <Link href="/booking">{t('bookAppointment')}</Link>
             </Button>
             <Button size="lg" variant="secondary" asChild>
-              <Link href="/services">View Services</Link>
+              <Link href="/services">{t('viewServices')}</Link>
             </Button>
           </div>
         </div>
@@ -54,8 +58,8 @@ export default function Home() {
                 <div key={prop.title} className="flex gap-4 items-start">
                     {IconComponent && <IconComponent className="h-10 w-10 text-primary mt-1" />}
                   <div>
-                    <h3 className="text-lg font-semibold">{prop.title}</h3>
-                    <p className="text-muted-foreground">{prop.description}</p>
+                    <h3 className="text-lg font-semibold">{t(prop.title)}</h3>
+                    <p className="text-muted-foreground">{t(prop.description)}</p>
                   </div>
                 </div>
                );
@@ -67,9 +71,9 @@ export default function Home() {
       {/* Services Section */}
       <section className="py-16 sm:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold font-headline mb-2">Our Services</h2>
+          <h2 className="text-3xl font-bold font-headline mb-2">{t('ourServices')}</h2>
           <p className="text-muted-foreground mb-12 max-w-2xl mx-auto">
-            From routine check-ups to complex repairs, we've got the expertise to keep you on the road.
+            {t('ourServicesDescription')}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.slice(0, 3).map((service) => (
@@ -89,20 +93,20 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <service.icon className="h-6 w-6 text-primary" />
-                    {service.title}
+                    {t(service.title)}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground mb-4">{service.description}</p>
+                  <p className="text-muted-foreground mb-4">{t(service.description)}</p>
                   <Button variant="outline" asChild>
-                    <Link href="/booking">Request Service</Link>
+                    <Link href="/booking">{t('requestService')}</Link>
                   </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
           <Button size="lg" className="mt-12" asChild>
-            <Link href="/services">See All Services</Link>
+            <Link href="/services">{t('seeAllServices')}</Link>
           </Button>
         </div>
       </section>
@@ -110,7 +114,7 @@ export default function Home() {
       {/* Testimonials */}
       <section className="py-16 sm:py-24 bg-secondary">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold font-headline text-center mb-12">What Our Customers Say</h2>
+          <h2 className="text-3xl font-bold font-headline text-center mb-12">{t('whatOurCustomersSay')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {testimonials.map((testimonial) => (
               <Card key={testimonial.name} className="bg-card">
@@ -120,7 +124,7 @@ export default function Home() {
                       <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                     ))}
                   </div>
-                  <p className="text-muted-foreground mb-4">"{testimonial.review}"</p>
+                  <p className="text-muted-foreground mb-4">"{t(testimonial.review)}"</p>
                   <div className="flex items-center gap-4">
                     {testimonial.image && (
                       <Avatar>
@@ -139,3 +143,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

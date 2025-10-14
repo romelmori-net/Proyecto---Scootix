@@ -3,78 +3,78 @@ import type { ImagePlaceholder } from "@/lib/placeholder-images";
 import { Wrench, BatteryCharging, Search, Truck, Star, HardHat, Cog, Package } from 'lucide-react';
 
 export const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Services', href: '/services' },
-  { name: 'Store', href: '/store' },
-  { name: 'DIY Kits', href: '/diy-kits' },
-  { name: 'Subscriptions', href: '/subscriptions' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
-  { name: 'Blog', href: '/blog' },
+  { name: 'home', href: '/' },
+  { name: 'services', href: '/services' },
+  { name: 'store', href: '/store' },
+  { name: 'diyKits', href: '/diy-kits' },
+  { name: 'subscriptions', href: '/subscriptions' },
+  { name: 'about', href: '/about' },
+  { name: 'contact', href: '/contact' },
+  { name: 'blog', href: '/blog' },
 ];
 
 export const valuePropositions = [
     {
         icon: "GuaranteeIcon",
-        title: "Extended Guarantee",
-        description: "Transparent service with an extended warranty you can trust."
+        title: "extendedGuarantee",
+        description: "extendedGuaranteeDescription"
     },
     {
         icon: "DeliveryIcon",
-        title: "Home Pickup & Delivery",
-        description: "We pick up your scooter and deliver it back, fully repaired."
+        title: "homePickupDelivery",
+        description: "homePickupDeliveryDescription"
     },
     {
         icon: "SubscriptionIcon",
-        title: "Subscription Plans",
-        description: "Affordable monthly plans to keep your scooter in top shape."
+        title: "subscriptionPlans",
+        description: "subscriptionPlansDescription"
     },
     {
         icon: "DiyKitIcon",
-        title: "DIY Online Store",
-        description: "Kits and parts for those who love to get their hands dirty."
+        title: "diyOnlineStore",
+        description: "diyOnlineStoreDescription"
     },
     {
         icon: "SupportIcon",
-        title: "Post-Sale Support",
-        description: "Get help anytime via WhatsApp or Telegram."
+        title: "postSaleSupport",
+        description: "postSaleSupportDescription"
     },
     {
         icon: "RecycleIcon",
-        title: "Battery Recycling",
-        description: "We recycle and refurbish batteries, promoting sustainability."
+        title: "batteryRecycling",
+        description: "batteryRecyclingDescription"
     }
 ];
 
 export const services = [
   {
     icon: Wrench,
-    title: 'Preventive Maintenance',
-    description: 'Full check-up to keep your scooter running smoothly and prevent future issues.',
+    title: 'preventiveMaintenance',
+    description: 'preventiveMaintenanceDescription',
     image: PlaceHolderImages.find(img => img.id === 'service-maintenance'),
   },
   {
     icon: Cog,
-    title: 'General Repairs',
-    description: 'From flat tires to engine trouble, our experts can fix it all.',
+    title: 'generalRepairs',
+    description: 'generalRepairsDescription',
     image: PlaceHolderImages.find(img => img.id === 'service-repair'),
   },
   {
     icon: Search,
-    title: 'Advanced Diagnostics',
-    description: 'Using the latest tech to accurately diagnose and solve any electronic issue.',
+    title: 'advancedDiagnostics',
+    description: 'advancedDiagnosticsDescription',
     image: PlaceHolderImages.find(img => img.id === 'service-diagnostics'),
   },
   {
     icon: BatteryCharging,
-    title: 'Battery Refurbishment',
-    description: 'Extend your battery’s life with our professional refurbishment and recycling service.',
+    title: 'batteryRefurbishment',
+    description: 'batteryRefurbishmentDescription',
     image: PlaceHolderImages.find(img => img.id === 'product-battery'),
   },
   {
     icon: Truck,
-    title: 'Home Delivery Service',
-    description: 'Convenient pickup and delivery service for all repairs and maintenance.',
+    title: 'homeDeliveryService',
+    description: 'homeDeliveryServiceDescription',
     image: PlaceHolderImages.find(img => img.id === 'hero-scooter'),
   },
 ];
@@ -155,47 +155,45 @@ export const products = [
 
 export const subscriptionPlans = [
   {
-    name: 'Basic',
+    name: 'basic',
     price: 9.99,
-    features: ['Monthly check-up', '10% off parts', 'Basic support'],
-    cta: 'Choose Basic',
+    features: ['monthlyCheckUp', 'basicSupport'],
+    cta: 'chooseBasic',
   },
   {
-    name: 'Pro',
+    name: 'pro',
     price: 19.99,
     features: [
-      'Bi-weekly cleaning',
-      '20% off parts',
-      'Priority support',
-      '1 free repair/year',
+      'biWeeklyCleaning',
+      'prioritySupport',
+      'oneFreeRepair',
     ],
-    cta: 'Choose Pro',
+    cta: 'choosePro',
     popular: true,
   },
   {
-    name: 'Enterprise',
+    name: 'enterprise',
     price: 29.99,
     features: [
-      'Weekly maintenance',
-      '30% off parts',
-      '24/7 support',
-      'Unlimited repairs',
-      'Home service included',
+      'weeklyMaintenance',
+      'twentyFourSevenSupport',
+      'unlimitedRepairs',
+      'homeServiceIncluded',
     ],
-    cta: 'Choose Enterprise',
+    cta: 'chooseEnterprise',
   },
 ];
 
 export const testimonials = [
   {
     name: 'Alex Johnson',
-    review: 'Scootix brought my scooter back to life! The home pickup service is a game-changer. Absolutely seamless experience.',
+    review: 'scootixBroughtMyScooter',
     rating: 5,
     image: PlaceHolderImages.find(img => img.id === 'testimonial-1'),
   },
   {
     name: 'Maria Garcia',
-    review: 'I bought a DIY kit and the tutorial was super easy to follow. My scooter is running better than ever. Highly recommend!',
+    review: 'iBoughtADiyKit',
     rating: 5,
     image: PlaceHolderImages.find(img => img.id === 'testimonial-2'),
   },
@@ -203,23 +201,23 @@ export const testimonials = [
 
 export const blogPosts = [
   {
-    title: '5 Tips for Extending Your Scooter\'s Battery Life',
+    title: 'tipsForExtendingBattery',
     date: 'May 10, 2024',
-    excerpt: 'Learn how to properly care for your battery to get the most out of every charge and extend its overall lifespan.',
+    excerpt: 'learnHowToProperlyCare',
     image: PlaceHolderImages.find(img => img.id === 'blog-post-1'),
     slug: 'battery-life-tips',
   },
   {
-    title: 'The Future of Urban Mobility: 2024 Scooter Trends',
+    title: 'theFutureOfUrbanMobility',
     date: 'April 28, 2024',
-    excerpt: 'We dive into the latest innovations in the e-scooter industry, from smart features to sustainable designs.',
+    excerpt: 'weDiveIntoTheLatest',
     image: PlaceHolderImages.find(img => img.id === 'blog-post-2'),
     slug: '2024-scooter-trends',
   },
   {
-    title: 'DIY Tutorial: How to Change Your Scooter Tire',
+    title: 'diyTutorialHowToChange',
     date: 'April 15, 2024',
-    excerpt: 'A step-by-step guide to changing a flat tire on your electric scooter with our DIY kit. No experience needed!',
+    excerpt: 'aStepByStepGuide',
     image: PlaceHolderImages.find(img => img.id === 'blog-post-3'),
     slug: 'diy-tire-change',
   },
@@ -227,20 +225,20 @@ export const blogPosts = [
 
 export const faqItems = [
     {
-        question: "What types of scooters do you service?",
-        answer: "We service most major brands of electric scooters. Contact us with your model information, and we can confirm if we support it."
+        question: "whatTypesOfScooters",
+        answer: "weServiceMostMajorBrands"
     },
     {
-        question: "How long does a typical repair take?",
-        answer: "Minor repairs can often be done same-day. More complex issues might take 2-3 business days. We provide a time estimate after our initial diagnosis."
+        question: "howLongDoesARepairTake",
+        answer: "minorRepairsCanOften"
     },
     {
-        question: "What is your warranty policy?",
-        answer: "We offer a 90-day warranty on all our repairs and a 1-year warranty on most parts sold in our store. Please see our full warranty page for details."
+        question: "whatIsYourWarranty",
+        answer: "weOfferA90Day"
     },
     {
-        question: "How does the home pickup and delivery service work?",
-        answer: "When you book a service, you can select the pickup option. We will coordinate a time to collect your scooter from your location and will return it to you once the service is complete. This service is available in select areas."
+        question: "howDoesTheHomePickup",
+        answer: "whenYouBookAService"
     }
 ];
 
@@ -281,3 +279,5 @@ export const mockOrders = [
     total: 49.99,
   },
 ];
+
+    
