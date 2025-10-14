@@ -29,7 +29,7 @@ export async function getDiySuggestions(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Validation failed. Please check the fields.",
+      message: "validationMessage",
     };
   }
 
@@ -40,12 +40,12 @@ export async function getDiySuggestions(
     });
     
     if (result.suggestedKits && result.suggestedKits.length > 0) {
-        return { message: "Here are some suggestions!", suggestions: result.suggestedKits };
+        return { message: "suggestionsMessage", suggestions: result.suggestedKits };
     } else {
-        return { message: "No specific DIY kits found for your issue. You may need a professional diagnosis." };
+        return { message: "noSuggestionsMessage" };
     }
   } catch (error) {
     console.error(error);
-    return { message: "An unexpected error occurred. Please try again later." };
+    return { message: "errorMessage" };
   }
 }

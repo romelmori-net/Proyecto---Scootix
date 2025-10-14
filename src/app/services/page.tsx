@@ -1,16 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { services } from "@/lib/data";
+import { useLanguage } from "@/context/language-context";
 
 export default function ServicesPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="container mx-auto px-4 py-12 md:py-20">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-headline mb-4">Our Services</h1>
+        <h1 className="text-4xl font-bold font-headline mb-4">{t('ourServices')}</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          We offer a comprehensive range of services to keep your electric scooter in peak condition. Our expert technicians are here to help with everything from routine maintenance to complex repairs.
+          {t('servicesPageDescription')}
         </p>
       </div>
 
@@ -32,13 +37,13 @@ export default function ServicesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
                 <service.icon className="h-7 w-7 text-primary" />
-                <span className="text-xl">{service.title}</span>
+                <span className="text-xl">{t(service.title)}</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
-              <p className="text-muted-foreground mb-6 flex-grow">{service.description}</p>
+              <p className="text-muted-foreground mb-6 flex-grow">{t(service.description)}</p>
               <Button asChild className="w-full">
-                <Link href="/booking">Request Service</Link>
+                <Link href="/booking">{t('requestService')}</Link>
               </Button>
             </CardContent>
           </Card>

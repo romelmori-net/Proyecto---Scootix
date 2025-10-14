@@ -8,17 +8,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package, Lightbulb, AlertTriangle } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 function SubmitButton() {
+  const { t } = useLanguage();
   const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending} className="w-full">
-      {pending ? "Getting Suggestions..." : "Get Suggestions"}
+      {pending ? t('gettingSuggestions') : t('getSuggestions')}
     </Button>
   );
 }
 
 export default function DiyKitsPage() {
+  const { t } = useLanguage();
   const initialState = { message: null, suggestions: [], errors: {} };
   const [state, dispatch] = useFormState(getDiySuggestions, initialState);
 
@@ -26,25 +29,25 @@ export default function DiyKitsPage() {
     <div className="container mx-auto px-4 py-12 md:py-20">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold font-headline mb-4">DIY Kit Recommender</h1>
+          <h1 className="text-4xl font-bold font-headline mb-4">{t('diyKitRecommender')}</h1>
           <p className="text-lg text-muted-foreground">
-            Having an issue with your scooter? Describe the problem, and our AI will suggest relevant DIY kits to help you fix it.
+            {t('diyKitRecommenderDescription')}
           </p>
         </div>
 
         <Card className="shadow-lg">
           <form action={dispatch}>
             <CardHeader>
-              <CardTitle>Describe Your Issue</CardTitle>
-              <CardDescription>Provide your scooter model and a description of the problem.</CardDescription>
+              <CardTitle>{t('describeYourIssue')}</CardTitle>
+              <CardDescription>{t('describeYourIssueDescription')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="scooterModel">Scooter Model</Label>
+                <Label htmlFor="scooterModel">{t('scooterModel')}</Label>
                 <Input
                   id="scooterModel"
                   name="scooterModel"
-                  placeholder="e.g., Xiaomi M365 Pro"
+                  placeholder={t('scooterModelPlaceholder')}
                   required
                 />
                 {state.errors?.scooterModel && (
@@ -52,11 +55,11 @@ export default function DiyKitsPage() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="userReportedIssue">Describe the Issue</Label>
+                <Label htmlFor="userReportedIssue">{t('describeTheIssue')}</Label>
                 <Textarea
                   id="userReportedIssue"
                   name="userReportedIssue"
-                  placeholder="e.g., 'The scooter won't turn on after charging overnight. The charger light is green.'"
+                  placeholder={t('describeTheIssuePlaceholder')}
                   rows={4}
                   required
                 />
@@ -77,11 +80,11 @@ export default function DiyKitsPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         {state.suggestions && state.suggestions.length > 0 ? <Lightbulb className="text-primary"/> : <AlertTriangle className="text-destructive"/>}
-                        AI Recommendation
+                        {t('aiRecommendation')}
                     </CardTitle>
                 </CardHeader>
               <CardContent>
-                <p className="mb-4">{state.message}</p>
+                <p className="mb-4">{t(state.message)}</p>
                 {state.suggestions && state.suggestions.length > 0 && (
                   <ul className="space-y-3">
                     {state.suggestions.map((kit, index) => (

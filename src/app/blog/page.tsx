@@ -1,16 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { blogPosts } from "@/lib/data";
+import { useLanguage } from "@/context/language-context";
 
 export default function BlogPage() {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto px-4 py-12 md:py-20">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-headline mb-4">Scootix Blog</h1>
+        <h1 className="text-4xl font-bold font-headline mb-4">{t('blogTitle')}</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Your source for e-scooter maintenance tips, industry news, and practical guides.
+          {t('blogDescription')}
         </p>
       </div>
 
@@ -32,17 +36,17 @@ export default function BlogPage() {
             <CardHeader>
               <CardTitle className="text-xl leading-snug">
                 <Link href="#" className="hover:text-primary transition-colors">
-                  {post.title}
+                  {t(post.title)}
                 </Link>
               </CardTitle>
               <p className="text-sm text-muted-foreground pt-1">{post.date}</p>
             </CardHeader>
             <CardContent className="flex-grow">
-              <p className="text-muted-foreground">{post.excerpt}</p>
+              <p className="text-muted-foreground">{t(post.excerpt)}</p>
             </CardContent>
             <CardFooter>
               <Button variant="link" className="p-0" asChild>
-                <Link href="#">Read More &rarr;</Link>
+                <Link href="#">{t('readMore')} &rarr;</Link>
               </Button>
             </CardFooter>
           </Card>

@@ -1,16 +1,20 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { subscriptionPlans } from "@/lib/data";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/language-context";
 
 export default function SubscriptionsPage() {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto px-4 py-12 md:py-20">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-headline mb-4">Subscription Plans</h1>
+        <h1 className="text-4xl font-bold font-headline mb-4">{t('subscriptionPlans')}</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Keep your scooter running like new with our all-inclusive maintenance plans. Choose the one that fits your needs.
+          {t('subscriptionPlansDescription')}
         </p>
       </div>
 
@@ -19,14 +23,14 @@ export default function SubscriptionsPage() {
           <Card key={plan.name} className={cn("flex flex-col", plan.popular ? "border-primary border-2 shadow-lg" : "")}>
             {plan.popular && (
               <div className="bg-primary text-primary-foreground text-sm font-bold text-center py-1 rounded-t-lg -mt-px">
-                Most Popular
+                {t('mostPopular')}
               </div>
             )}
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
+              <CardTitle className="text-2xl font-bold">{t(plan.name)}</CardTitle>
               <CardDescription className="flex items-baseline justify-center gap-1">
                 <span className="text-4xl font-extrabold tracking-tight">${plan.price}</span>
-                <span className="text-muted-foreground">/month</span>
+                <span className="text-muted-foreground">/{t('month')}</span>
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
@@ -34,14 +38,14 @@ export default function SubscriptionsPage() {
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-accent" />
-                    <span className="text-muted-foreground">{feature}</span>
+                    <span className="text-muted-foreground">{t(feature)}</span>
                   </li>
                 ))}
               </ul>
             </CardContent>
             <CardFooter>
               <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
-                {plan.cta}
+                {t(plan.cta)}
               </Button>
             </CardFooter>
           </Card>

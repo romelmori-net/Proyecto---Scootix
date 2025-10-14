@@ -14,16 +14,18 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { services } from "@/lib/data";
+import { useLanguage } from "@/context/language-context";
 
 export default function BookingPage() {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toast({
-      title: "Appointment Booked!",
-      description: "We've received your request and will confirm shortly.",
+      title: t('appointmentBookedToastTitle'),
+      description: t('appointmentBookedToastDescription'),
     });
   };
 
@@ -31,36 +33,36 @@ export default function BookingPage() {
     <div className="container mx-auto px-4 py-12 md:py-20">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold font-headline mb-4">Book an Appointment</h1>
+          <h1 className="text-4xl font-bold font-headline mb-4">{t('bookAppointment')}</h1>
           <p className="text-lg text-muted-foreground">
-            Schedule your scooter service with us. It's fast and easy.
+            {t('bookAppointmentDescription')}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div className="space-y-6 bg-card p-8 rounded-lg">
             <div>
-              <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="John Doe" required />
+              <Label htmlFor="name">{t('fullName')}</Label>
+              <Input id="name" placeholder={t('fullNamePlaceholder')} required />
             </div>
             <div>
-              <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" placeholder="john@example.com" required />
+              <Label htmlFor="email">{t('emailAddress')}</Label>
+              <Input id="email" type="email" placeholder={t('emailAddressPlaceholder')} required />
             </div>
             <div>
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" type="tel" placeholder="(123) 456-7890" required />
+              <Label htmlFor="phone">{t('phoneNumber')}</Label>
+              <Input id="phone" type="tel" placeholder={t('phoneNumberPlaceholder')} required />
             </div>
             <div>
-              <Label htmlFor="service-type">Service Type</Label>
+              <Label htmlFor="service-type">{t('serviceType')}</Label>
               <Select required>
                 <SelectTrigger id="service-type">
-                  <SelectValue placeholder="Select a service" />
+                  <SelectValue placeholder={t('selectServicePlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
                   {services.map((service) => (
-                    <SelectItem key={service.title} value={service.title}>
-                      {service.title}
+                    <SelectItem key={service.title} value={t(service.title)}>
+                      {t(service.title)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -70,7 +72,7 @@ export default function BookingPage() {
 
           <div className="space-y-6 bg-card p-8 rounded-lg">
              <div>
-              <Label>Select a Date</Label>
+              <Label>{t('selectDate')}</Label>
                <div className="flex justify-center">
                  <Calendar
                    mode="single"
@@ -82,10 +84,10 @@ export default function BookingPage() {
                </div>
             </div>
             <div>
-                <Label>Select a Time</Label>
+                <Label>{t('selectTime')}</Label>
                  <Select>
                     <SelectTrigger>
-                        <SelectValue placeholder="Select a time slot" />
+                        <SelectValue placeholder={t('selectTimePlaceholder')} />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="09:00">9:00 AM</SelectItem>
@@ -96,7 +98,7 @@ export default function BookingPage() {
                     </SelectContent>
                 </Select>
             </div>
-             <Button type="submit" className="w-full" size="lg">Book Now</Button>
+             <Button type="submit" className="w-full" size="lg">{t('bookNow')}</Button>
           </div>
         </form>
       </div>

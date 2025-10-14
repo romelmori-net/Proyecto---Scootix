@@ -7,24 +7,26 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 export default function ContactPage() {
+  const { t } = useLanguage();
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toast({
-      title: "Message Sent!",
-      description: "Thanks for reaching out. We'll get back to you soon.",
+      title: t('messageSentToastTitle'),
+      description: t('messageSentToastDescription'),
     });
   };
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-20">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-headline mb-4">Get In Touch</h1>
+        <h1 className="text-4xl font-bold font-headline mb-4">{t('getInTouch')}</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Have a question or need support? We're here to help. Reach out to us through any of the channels below.
+          {t('getInTouchDescription')}
         </p>
       </div>
 
@@ -34,31 +36,31 @@ export default function ContactPage() {
             <Card>
                 <CardHeader className="flex flex-row items-center gap-4 space-y-0">
                     <Mail className="h-8 w-8 text-primary" />
-                    <CardTitle>Email Us</CardTitle>
+                    <CardTitle>{t('emailUs')}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">Send us an email for inquiries.</p>
+                    <p className="text-muted-foreground">{t('emailUsDescription')}</p>
                     <a href="mailto:hello@scootix.com" className="font-semibold text-primary hover:underline">hello@scootix.com</a>
                 </CardContent>
             </Card>
             <Card>
                 <CardHeader className="flex flex-row items-center gap-4 space-y-0">
                     <Phone className="h-8 w-8 text-primary" />
-                    <CardTitle>Call Us</CardTitle>
+                    <CardTitle>{t('callUs')}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">Talk to our team directly.</p>
+                    <p className="text-muted-foreground">{t('callUsDescription')}</p>
                     <a href="tel:+1234567890" className="font-semibold text-primary hover:underline">(123) 456-7890</a>
                 </CardContent>
             </Card>
             <Card>
                 <CardHeader className="flex flex-row items-center gap-4 space-y-0">
                     <MapPin className="h-8 w-8 text-primary" />
-                    <CardTitle>Visit Us</CardTitle>
+                    <CardTitle>{t('visitUs')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground">123 Electric Ave, Metropolis, 12345</p>
-                     <p className="font-semibold text-primary">Open Mon-Fri, 9am - 6pm</p>
+                     <p className="font-semibold text-primary">{t('officeHours')}</p>
                 </CardContent>
             </Card>
         </div>
@@ -68,30 +70,30 @@ export default function ContactPage() {
           <Card className="shadow-lg">
              <form onSubmit={handleSubmit}>
               <CardHeader>
-                <CardTitle>Send a Message</CardTitle>
+                <CardTitle>{t('sendMessage')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your Name" required/>
+                    <Label htmlFor="name">{t('name')}</Label>
+                    <Input id="name" placeholder={t('namePlaceholder')} required/>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="Your Email" required/>
+                    <Label htmlFor="email">{t('email')}</Label>
+                    <Input id="email" type="email" placeholder={t('emailPlaceholder')} required/>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input id="subject" placeholder="Question about a repair" required/>
+                  <Label htmlFor="subject">{t('subject')}</Label>
+                  <Input id="subject" placeholder={t('subjectPlaceholder')} required/>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea id="message" placeholder="Your message here..." rows={6} required/>
+                  <Label htmlFor="message">{t('message')}</Label>
+                  <Textarea id="message" placeholder={t('messagePlaceholder')} rows={6} required/>
                 </div>
               </CardContent>
               <CardContent>
-                 <Button type="submit" className="w-full" size="lg">Send Message</Button>
+                 <Button type="submit" className="w-full" size="lg">{t('sendMessage')}</Button>
               </CardContent>
              </form>
           </Card>
@@ -100,9 +102,9 @@ export default function ContactPage() {
       
        {/* Map Placeholder */}
         <div className="mt-16 md:mt-24">
-            <h2 className="text-3xl font-bold font-headline text-center mb-8">Find Us Here</h2>
+            <h2 className="text-3xl font-bold font-headline text-center mb-8">{t('findUsHere')}</h2>
             <div className="aspect-[16/9] bg-muted rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">Interactive map coming soon.</p>
+                <p className="text-muted-foreground">{t('mapComingSoon')}</p>
             </div>
         </div>
 
