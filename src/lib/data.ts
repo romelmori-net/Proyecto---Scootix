@@ -14,36 +14,36 @@ export const navLinks = [
 ];
 
 export const valuePropositions = [
-    {
-        icon: "GuaranteeIcon",
-        title: "extendedGuarantee",
-        description: "extendedGuaranteeDescription"
-    },
-    {
-        icon: "DeliveryIcon",
-        title: "homePickupDelivery",
-        description: "homePickupDeliveryDescription"
-    },
-    {
-        icon: "SubscriptionIcon",
-        title: "subscriptionPlans",
-        description: "subscriptionPlansDescription"
-    },
-    {
-        icon: "DiyKitIcon",
-        title: "diyOnlineStore",
-        description: "diyOnlineStoreDescription"
-    },
-    {
-        icon: "SupportIcon",
-        title: "postSaleSupport",
-        description: "postSaleSupportDescription"
-    },
-    {
-        icon: "RecycleIcon",
-        title: "batteryRecycling",
-        description: "batteryRecyclingDescription"
-    }
+  {
+    icon: "GuaranteeIcon",
+    title: "extendedGuarantee",
+    description: "extendedGuaranteeDescription"
+  },
+  {
+    icon: "DeliveryIcon",
+    title: "homePickupDelivery",
+    description: "homePickupDeliveryDescription"
+  },
+  {
+    icon: "SubscriptionIcon",
+    title: "subscriptionPlans",
+    description: "subscriptionPlansDescription"
+  },
+  {
+    icon: "DiyKitIcon",
+    title: "diyOnlineStore",
+    description: "diyOnlineStoreDescription"
+  },
+  {
+    icon: "SupportIcon",
+    title: "postSaleSupport",
+    description: "postSaleSupportDescription"
+  },
+  {
+    icon: "RecycleIcon",
+    title: "batteryRecycling",
+    description: "batteryRecyclingDescription"
+  }
 ];
 
 export const services = [
@@ -115,16 +115,16 @@ export const products = [
     category: 'DIY Kits',
     image: PlaceHolderImages.find(img => img.id === 'service-repair') as ImagePlaceholder,
   },
-    {
+  {
     id: 'prod_6',
     name: 'LED Light Strip',
     price: 25.99,
     category: 'Accessories',
     image: {
-        id: "led-light",
-        description: "Colorful LED light strip for scooters",
-        imageUrl: "https://picsum.photos/seed/15/400/400",
-        imageHint: "LED strip"
+      id: "led-light",
+      description: "Colorful LED light strip for electric scooters",
+      imageUrl: "https://images.unsplash.com/photo-1558618047-3f9c43a6c6a4?w=400&h=400&fit=crop&q=80",
+      imageHint: "LED strip scooter accessories"
     },
   },
   {
@@ -133,10 +133,10 @@ export const products = [
     price: 199.99,
     category: 'Parts',
     image: {
-        id: "scooter-motor",
-        description: "A powerful electric scooter motor",
-        imageUrl: "https://picsum.photos/seed/16/400/400",
-        imageHint: "scooter motor"
+      id: "scooter-motor",
+      description: "A powerful brushless electric scooter motor",
+      imageUrl: "https://images.unsplash.com/photo-1517089596392-fb9a9033e05b?w=400&h=400&fit=crop&q=80",
+      imageHint: "electric motor parts"
     },
   },
   {
@@ -145,10 +145,10 @@ export const products = [
     price: 129.99,
     category: 'DIY Kits',
     image: {
-        id: "scooter-suspension",
-        description: "Suspension kit for a smoother ride",
-        imageUrl: "https://picsum.photos/seed/17/400/400",
-        imageHint: "scooter suspension"
+      id: "scooter-suspension",
+      description: "Front fork suspension upgrade kit for electric scooters",
+      imageUrl: "https://images.unsplash.com/photo-1558981033-0f0309284409?w=400&h=400&fit=crop&q=80",
+      imageHint: "scooter suspension upgrade"
     },
   }
 ];
@@ -224,22 +224,22 @@ export const blogPosts = [
 ];
 
 export const faqItems = [
-    {
-        question: "whatTypesOfScooters",
-        answer: "weServiceMostMajorBrands"
-    },
-    {
-        question: "howLongDoesARepairTake",
-        answer: "minorRepairsCanOften"
-    },
-    {
-        question: "whatIsYourWarranty",
-        answer: "weOfferA90Day"
-    },
-    {
-        question: "howDoesTheHomePickup",
-        answer: "whenYouBookAService"
-    }
+  {
+    question: "whatTypesOfScooters",
+    answer: "weServiceMostMajorBrands"
+  },
+  {
+    question: "howLongDoesARepairTake",
+    answer: "minorRepairsCanOften"
+  },
+  {
+    question: "whatIsYourWarranty",
+    answer: "weOfferA90Day"
+  },
+  {
+    question: "howDoesTheHomePickup",
+    answer: "whenYouBookAService"
+  }
 ];
 
 export const mockOrders = [
@@ -280,4 +280,4 @@ export const mockOrders = [
   },
 ];
 
-    
+

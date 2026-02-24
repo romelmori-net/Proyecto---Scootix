@@ -4,26 +4,33 @@
 
 @layer base {
   :root {
-    --background: 211 100% 95%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 40% 98%;
+    /* #F8FAFC - Gris Claro Premium */
+    --foreground: 222.2 47.4% 11.2%;
+    /* #0F172A - Texto Principal */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222.2 47.4% 11.2%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 211 100% 50%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    --primary: 199 89% 48%;
+    /* #0EA5E9 - Azul Eléctrico */
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
+    --secondary: 187 81% 54%;
+    /* #22D3EE - Cyan Energético */
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 120 61% 50%;
+    --accent: 82 85% 55%;
+    /* #A3E635 - Verde Energía Suave */
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 211 100% 50%;
-    --radius: 0.5rem;
+    --ring: 199 89% 48%;
+    --radius: 1rem;
+    --navbar-bg: 222.2 47.4% 11.2%;
+    /* #0F172A - Azul Oscuro Elegante */
   }
 
   .dark {
@@ -53,6 +60,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

@@ -13,21 +13,26 @@ import { useLanguage } from "@/context/language-context";
 import { useCart } from "@/context/cart-context";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function CheckoutPage() {
   const { t } = useLanguage();
   const { cart, clearCart } = useCart();
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const shipping = cart.length > 0 ? 10.00 : 0;
   const total = subtotal + shipping;
 
   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin?callbackUrl=/checkout");
+    }
     if (cart.length === 0) {
       router.push('/store');
     }
-  }, [cart, router]);
+  }, [cart, router, status]);
 
   const handlePay = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -39,14 +44,14 @@ export default function CheckoutPage() {
   if (cart.length === 0) {
     return null; // Or a loading spinner
   }
-  
+
   return (
     <div className="container mx-auto px-4 py-12 md:py-20">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         {/* Checkout Form */}
         <div className="space-y-8">
           <h1 className="text-3xl font-bold font-headline">{t('checkout')}</h1>
-          
+
           {/* Delivery Information */}
           <Card>
             <CardHeader>
@@ -56,11 +61,11 @@ export default function CheckoutPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">{t('firstName')}</Label>
-                  <Input id="firstName" placeholder={t('firstNamePlaceholder')} />
+                  <Input id="firstName" placeholder={t('firstNamePlaceholder')} defaultValue={session?.user?.name?.split(' ')[0] || ''} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">{t('lastName')}</Label>
-                  <Input id="lastName" placeholder={t('lastNamePlaceholder')} />
+                  <Input id="lastName" placeholder={t('lastNamePlaceholder')} defaultValue={session?.user?.name?.split(' ').slice(1).join(' ') || ''} />
                 </div>
               </div>
               <div className="space-y-2">
@@ -68,18 +73,18 @@ export default function CheckoutPage() {
                 <Input id="address" placeholder={t('addressPlaceholder')} />
               </div>
               <div className="grid sm:grid-cols-3 gap-4">
-                 <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="city">{t('city')}</Label>
-                    <Input id="city" placeholder={t('cityPlaceholder')} />
-                 </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="zip">{t('zipCode')}</Label>
-                    <Input id="zip" placeholder={t('zipCodePlaceholder')} />
-                 </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="city">{t('city')}</Label>
+                  <Input id="city" placeholder={t('cityPlaceholder')} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="zip">{t('zipCode')}</Label>
+                  <Input id="zip" placeholder={t('zipCodePlaceholder')} />
+                </div>
               </div>
             </CardContent>
           </Card>
-          
+
           {/* Shipping Method */}
           <Card>
             <CardHeader>
@@ -88,7 +93,7 @@ export default function CheckoutPage() {
             <CardContent>
               <RadioGroup defaultValue="delivery" className="space-y-4">
                 <Label className="flex items-center gap-4 border rounded-md p-4 cursor-pointer hover:bg-accent has-[[data-state=checked]]:border-primary">
-                  <RadioGroupItem value="delivery" id="delivery"/>
+                  <RadioGroupItem value="delivery" id="delivery" />
                   <Truck className="h-6 w-6 text-primary" />
                   <div>
                     <p className="font-semibold">{t('homeDelivery')}</p>
@@ -96,7 +101,7 @@ export default function CheckoutPage() {
                   </div>
                 </Label>
                 <Label className="flex items-center gap-4 border rounded-md p-4 cursor-pointer hover:bg-accent has-[[data-state=checked]]:border-primary">
-                  <RadioGroupItem value="pickup" id="pickup"/>
+                  <RadioGroupItem value="pickup" id="pickup" />
                   <Store className="h-6 w-6 text-primary" />
                   <div>
                     <p className="font-semibold">{t('inStorePickup')}</p>
@@ -106,33 +111,33 @@ export default function CheckoutPage() {
               </RadioGroup>
             </CardContent>
           </Card>
-          
+
           {/* Payment */}
           <Card>
-              <CardHeader>
-                  <CardTitle>{t('payment')}</CardTitle>
-                  <CardDescription>{t('paymentDescription')}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                 <div className="flex items-center gap-4 border rounded-md p-4 bg-secondary">
-                    <CreditCard className="h-6 w-6 text-primary"/>
-                    <p className="font-semibold">{t('creditDebitCard')}</p>
-                 </div>
-                 <div className="space-y-2">
-                     <Label htmlFor="cardNumber">{t('cardNumber')}</Label>
-                     <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
-                 </div>
-                 <div className="grid grid-cols-2 gap-4">
-                     <div className="space-y-2">
-                         <Label htmlFor="expiryDate">{t('expirationDate')}</Label>
-                         <Input id="expiryDate" placeholder="MM/YY" />
-                     </div>
-                     <div className="space-y-2">
-                         <Label htmlFor="cvc">CVC</Label>
-                         <Input id="cvc" placeholder="123" />
-                     </div>
-                 </div>
-              </CardContent>
+            <CardHeader>
+              <CardTitle>{t('payment')}</CardTitle>
+              <CardDescription>{t('paymentDescription')}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center gap-4 border rounded-md p-4 bg-secondary">
+                <CreditCard className="h-6 w-6 text-primary" />
+                <p className="font-semibold">{t('creditDebitCard')}</p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="cardNumber">{t('cardNumber')}</Label>
+                <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="expiryDate">{t('expirationDate')}</Label>
+                  <Input id="expiryDate" placeholder="MM/YY" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cvc">CVC</Label>
+                  <Input id="cvc" placeholder="123" />
+                </div>
+              </div>
+            </CardContent>
           </Card>
 
         </div>
@@ -175,7 +180,7 @@ export default function CheckoutPage() {
                   <span>{t('shipping')}</span>
                   <span>${shipping.toFixed(2)}</span>
                 </div>
-                 <div className="flex justify-between text-muted-foreground">
+                <div className="flex justify-between text-muted-foreground">
                   <span>{t('taxes')}</span>
                   <span>{t('taxesCalculated')}</span>
                 </div>
