@@ -1,17 +1,27 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
+import { z } from "zod";
+
+const registerSchema = z.object({
+    name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+    email: z.string().email("Email inválido"),
+    password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+});
 
 export async function POST(req: Request) {
     try {
-        const { name, email, password } = await req.json();
+        const body = await req.json();
+        const validation = registerSchema.safeParse(body);
 
-        if (!name || !email || !password) {
+        if (!validation.success) {
             return NextResponse.json(
-                { message: "Faltan campos obligatorios" },
+                { message: validation.error.errors[0].message },
                 { status: 400 }
             );
         }
+
+        const { name, email, password } = validation.data;
 
         const exists = await prisma.user.findUnique({
             where: { email }
@@ -19,19 +29,23 @@ export async function POST(req: Request) {
 
         if (exists) {
             return NextResponse.json(
-                { message: "El usuario ya existe" },
+                { message: "No se pudo completar el registro" }, // No revelar que el email existe por seguridad
                 { status: 400 }
             );
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 12); // Seguridad reforzada
+
+        // Leer emails de admin de variables de entorno
+        const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map(e => e.trim().toLowerCase());
+        const isDefaultAdmin = adminEmails.includes(email.toLowerCase());
 
         const user = await prisma.user.create({
             data: {
                 name,
                 email,
                 password: hashedPassword,
-                role: "CUSTOMER"
+                role: isDefaultAdmin ? "ADMIN" : "CUSTOMER"
             }
         });
 

@@ -198,5 +198,10 @@
   "subscriptionsDescription": "Affordable monthly plans to keep your scooter in top shape.",
   "aboutNavDescription": "Learn more about our mission and team.",
   "contactNavDescription": "How to reach us.",
-  "blogNavDescription": "Tips, news, and guides."
+  "blogNavDescription": "Tips, news, and guides.",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "signOut": "Sign Out",
+  "myOrders": "My Orders",
+  "loading": "Loading..."
 }

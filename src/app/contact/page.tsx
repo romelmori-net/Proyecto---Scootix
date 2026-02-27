@@ -8,17 +8,37 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import { saveContactMessage } from "@/lib/actions/contact";
 
 export default function ContactPage() {
   const { t } = useLanguage();
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast({
-      title: t('messageSentToastTitle'),
-      description: t('messageSentToastDescription'),
-    });
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      subject: formData.get("subject") as string,
+      message: formData.get("message") as string,
+    };
+
+    const res = await saveContactMessage(data);
+
+    if (res.success) {
+      toast({
+        title: t('messageSentToastTitle'),
+        description: t('messageSentToastDescription'),
+      });
+      (e.target as HTMLFormElement).reset();
+    } else {
+      toast({
+        title: "Error",
+        description: res.error,
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -33,42 +53,42 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Contact Info */}
         <div className="md:col-span-1 space-y-6">
-            <Card>
-                <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-                    <Mail className="h-8 w-8 text-primary" />
-                    <CardTitle>{t('emailUs')}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">{t('emailUsDescription')}</p>
-                    <a href="mailto:hello@scootix.com" className="font-semibold text-primary hover:underline">hello@scootix.com</a>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-                    <Phone className="h-8 w-8 text-primary" />
-                    <CardTitle>{t('callUs')}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">{t('callUsDescription')}</p>
-                    <a href="tel:+1234567890" className="font-semibold text-primary hover:underline">(123) 456-7890</a>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-                    <MapPin className="h-8 w-8 text-primary" />
-                    <CardTitle>{t('visitUs')}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">123 Electric Ave, Metropolis, 12345</p>
-                     <p className="font-semibold text-primary">{t('officeHours')}</p>
-                </CardContent>
-            </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+              <Mail className="h-8 w-8 text-primary" />
+              <CardTitle>{t('emailUs')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">{t('emailUsDescription')}</p>
+              <a href="mailto:hello@scootix.com" className="font-semibold text-primary hover:underline">hello@scootix.com</a>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+              <Phone className="h-8 w-8 text-primary" />
+              <CardTitle>{t('callUs')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">{t('callUsDescription')}</p>
+              <a href="tel:+1234567890" className="font-semibold text-primary hover:underline">(123) 456-7890</a>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+              <MapPin className="h-8 w-8 text-primary" />
+              <CardTitle>{t('visitUs')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">123 Electric Ave, Metropolis, 12345</p>
+              <p className="font-semibold text-primary">{t('officeHours')}</p>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Contact Form */}
         <div className="md:col-span-2">
           <Card className="shadow-lg">
-             <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <CardHeader>
                 <CardTitle>{t('sendMessage')}</CardTitle>
               </CardHeader>
@@ -76,37 +96,37 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">{t('name')}</Label>
-                    <Input id="name" placeholder={t('namePlaceholder')} required/>
+                    <Input id="name" name="name" placeholder={t('namePlaceholder')} required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">{t('email')}</Label>
-                    <Input id="email" type="email" placeholder={t('emailPlaceholder')} required/>
+                    <Input id="email" name="email" type="email" placeholder={t('emailPlaceholder')} required />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="subject">{t('subject')}</Label>
-                  <Input id="subject" placeholder={t('subjectPlaceholder')} required/>
+                  <Input id="subject" name="subject" placeholder={t('subjectPlaceholder')} required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">{t('message')}</Label>
-                  <Textarea id="message" placeholder={t('messagePlaceholder')} rows={6} required/>
+                  <Textarea id="message" name="message" placeholder={t('messagePlaceholder')} rows={6} required />
                 </div>
               </CardContent>
               <CardContent>
-                 <Button type="submit" className="w-full" size="lg">{t('sendMessage')}</Button>
+                <Button type="submit" className="w-full" size="lg">{t('sendMessage')}</Button>
               </CardContent>
-             </form>
+            </form>
           </Card>
         </div>
       </div>
-      
-       {/* Map Placeholder */}
-        <div className="mt-16 md:mt-24">
-            <h2 className="text-3xl font-bold font-headline text-center mb-8">{t('findUsHere')}</h2>
-            <div className="aspect-[16/9] bg-muted rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">{t('mapComingSoon')}</p>
-            </div>
+
+      {/* Map Placeholder */}
+      <div className="mt-16 md:mt-24">
+        <h2 className="text-3xl font-bold font-headline text-center mb-8">{t('findUsHere')}</h2>
+        <div className="aspect-[16/9] bg-muted rounded-lg flex items-center justify-center">
+          <p className="text-muted-foreground">{t('mapComingSoon')}</p>
         </div>
+      </div>
 
     </div>
   );

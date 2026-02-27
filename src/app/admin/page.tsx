@@ -1,11 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, ShoppingCart, Users, DollarSign } from "lucide-react";
+import { Package, ShoppingCart, Users, DollarSign, Star, Mail } from "lucide-react";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 export default async function AdminDashboard() {
     const productCount = await prisma.product.count();
     const orderCount = await prisma.order.count();
     const userCount = await prisma.user.count();
+    const messageCount = await prisma.contactMessage.count();
 
     // En un caso real, sumaríamos los totales de las órdenes
     const totalRevenue = 0;
@@ -13,8 +15,10 @@ export default async function AdminDashboard() {
     const stats = [
         { name: "Ventas Totales", value: `$${totalRevenue}`, icon: DollarSign, color: "text-green-600" },
         { name: "Pedidos", value: orderCount, icon: ShoppingCart, color: "text-blue-600" },
-        { name: "Productos", value: productCount, icon: Package, color: "text-orange-600" },
-        { name: "Clientes", value: userCount, icon: Users, color: "text-purple-600" },
+        { name: "Productos", value: productCount, icon: Package, color: "text-orange-600", href: "/admin/products" },
+        { name: "Clientes", value: userCount, icon: Users, color: "text-purple-600", href: "/admin/users" },
+        { name: "Mensajes", value: messageCount, icon: Mail, color: "text-blue-500", href: "/admin/messages" },
+        { name: "Testimonios", value: "Gestionar", icon: Star, color: "text-amber-600", href: "/admin/testimonials" },
     ];
 
     return (
@@ -24,17 +28,19 @@ export default async function AdminDashboard() {
                 <p className="text-muted-foreground">Bienvenido al panel de control de Scootix.</p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {stats.map((stat) => (
-                    <Card key={stat.name}>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">{stat.name}</CardTitle>
-                            <stat.icon className={cn("h-4 w-4", stat.color)} />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">{stat.value}</div>
-                        </CardContent>
-                    </Card>
+                    <Link key={stat.name} href={(stat as any).href || "#"}>
+                        <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">{stat.name}</CardTitle>
+                                <stat.icon className={cn("h-4 w-4", stat.color)} />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">{stat.value}</div>
+                            </CardContent>
+                        </Card>
+                    </Link>
                 ))}
             </div>
 

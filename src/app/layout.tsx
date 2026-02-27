@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { LanguageProvider } from '@/context/language-context';
 import { CartProvider } from '@/context/cart-context';
 import { AuthProvider } from '@/components/providers/auth-provider';
+import { WhatsAppWidget } from '@/components/ui/whatsapp-widget';
 
 export const metadata: Metadata = {
   title: 'Scootix Hub - Your Electric Scooter Partner',
@@ -34,6 +35,7 @@ export default function RootLayout({
                 {children}
               </main>
               <Footer />
+              <WhatsAppWidget />
               <Toaster />
             </CartProvider>
           </LanguageProvider>

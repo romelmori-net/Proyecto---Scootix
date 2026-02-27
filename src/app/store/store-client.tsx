@@ -39,126 +39,159 @@ export function StoreClient({ initialProducts, categories }: { initialProducts: 
     };
 
     return (
-        <>
-            {/* Buscador Premium */}
-            <div className="relative max-w-xl mx-auto mb-8">
-                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-[#0EA5E9]" />
-                </div>
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="¿Qué estás buscando?"
-                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-[#0EA5E9]/40 bg-[#0F172A] text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0EA5E9] focus:ring-2 focus:ring-[#0EA5E9]/20 transition-all duration-300 text-base shadow-[0_0_20px_rgba(14,165,233,0.1)]"
-                />
-            </div>
+        <div className="flex flex-col lg:flex-row gap-8 items-start max-w-7xl mx-auto w-full">
+            {/* Sidebar - Filtros */}
+            <aside className="w-full lg:w-72 shrink-0 lg:sticky lg:top-32 animate-in fade-in slide-in-from-left-8 duration-700">
+                <div className="bg-white border border-slate-200 rounded-[2rem] p-6 shadow-xl relative overflow-hidden">
+                    {/* Elemento decorativo tech */}
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-[50px] blur-2xl pointer-events-none" />
 
-            {/* Filtros de categoría */}
-            <div className="flex justify-center mb-10">
-                <div className="flex flex-wrap gap-2 justify-center">
-                    <button
-                        onClick={() => setSelectedCategory("all")}
-                        className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 border ${selectedCategory === "all"
-                                ? "bg-[#0EA5E9] border-[#0EA5E9] text-white shadow-[0_0_15px_rgba(14,165,233,0.4)]"
-                                : "bg-transparent border-white/20 text-slate-300 hover:border-[#0EA5E9]/60 hover:text-white"
-                            }`}
-                    >
-                        {t('all') || 'Todos'}
-                    </button>
-                    {categories.map(category => (
+                    <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                        <Tag className="h-5 w-5 text-primary" />
+                        Explorar
+                    </h3>
+
+                    <div className="flex flex-col gap-2">
                         <button
-                            key={category.id}
-                            onClick={() => setSelectedCategory(category.name.toLowerCase())}
-                            className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 border ${selectedCategory === category.name.toLowerCase()
-                                    ? "bg-[#0EA5E9] border-[#0EA5E9] text-white shadow-[0_0_15px_rgba(14,165,233,0.4)]"
-                                    : "bg-transparent border-white/20 text-slate-300 hover:border-[#0EA5E9]/60 hover:text-white"
+                            onClick={() => setSelectedCategory("all")}
+                            className={`flex items-center px-4 py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${selectedCategory === "all"
+                                ? "bg-primary text-white shadow-md scale-[1.02]"
+                                : "bg-transparent text-slate-600 hover:bg-slate-50 hover:text-primary"
                                 }`}
                         >
-                            {t(category.name.toLowerCase()) || category.name}
+                            <span className="flex-1 text-left">{t('all') || 'Todos los Productos'}</span>
+                            {selectedCategory === "all" && <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
                         </button>
-                    ))}
+                        {categories.map(category => (
+                            <button
+                                key={category.id}
+                                onClick={() => setSelectedCategory(category.name.toLowerCase())}
+                                className={`flex items-center px-4 py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${selectedCategory === category.name.toLowerCase()
+                                    ? "bg-primary text-white shadow-md scale-[1.02]"
+                                    : "bg-transparent text-slate-600 hover:bg-slate-50 hover:text-primary"
+                                    }`}
+                            >
+                                <span className="flex-1 text-left">{t(category.name.toLowerCase()) || category.name}</span>
+                                {selectedCategory === category.name.toLowerCase() && <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </aside>
 
-            {/* Contador de resultados */}
-            {searchQuery && (
-                <p className="text-center text-slate-400 text-sm mb-6">
-                    {filteredProducts.length} resultado{filteredProducts.length !== 1 ? 's' : ''} para <span className="text-[#0EA5E9] font-bold">"{searchQuery}"</span>
-                </p>
-            )}
+            {/* Contenido Principal */}
+            <div className="flex-1 flex flex-col w-full min-w-0">
+                {/* Buscador Premium */}
+                <div className="relative w-full mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+                        <Search className="h-5 w-5 text-slate-400" />
+                    </div>
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Buscar repuestos, accesorios..."
+                        className="w-full pl-14 pr-6 py-4 rounded-2xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-300 text-base shadow-sm"
+                    />
+                </div>
 
-            {/* Grid de Productos */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {filteredProducts.map((product) => (
-                    <div
-                        key={product.id}
-                        className="group relative rounded-2xl overflow-hidden border border-[#0EA5E9]/20 bg-[#0F172A] hover:border-[#0EA5E9]/60 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] transition-all duration-300 flex flex-col"
-                    >
-                        {/* Badge de categoría */}
-                        <div className="absolute top-3 left-3 z-10">
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wide bg-[#0EA5E9]/20 text-[#0EA5E9] border border-[#0EA5E9]/30 backdrop-blur-sm">
-                                <Tag className="h-2.5 w-2.5" />
-                                {product.category.name}
-                            </span>
-                        </div>
+                {/* Contador de resultados */}
+                <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
+                    <p className="text-slate-600 font-medium text-sm">
+                        Mostrando <span className="text-slate-900 font-bold">{filteredProducts.length}</span> producto{filteredProducts.length !== 1 ? 's' : ''}
+                    </p>
+                    {searchQuery && (
+                        <p className="text-sm font-medium text-slate-600">
+                            Filtro: <span className="text-primary font-bold">"{searchQuery}"</span>
+                        </p>
+                    )}
+                </div>
 
-                        {/* Imagen */}
-                        <Link href={`/store/${product.id}`} className="block">
-                            <div className="aspect-square overflow-hidden bg-[#1E293B]">
-                                <Image
-                                    src={product.imageUrl || '/placeholder-scooter.jpg'}
-                                    alt={product.name}
-                                    width={400}
-                                    height={400}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                />
-                            </div>
-                        </Link>
+                {/* Grid de Productos */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-1000">
+                    {filteredProducts.map((product) => (
+                        <div
+                            key={product.id}
+                            className="group relative rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-sm hover:border-primary/30 hover:shadow-xl transition-all duration-500 flex flex-col"
+                        >
+                            {/* Linea oblicua decorativa de la card */}
+                            <div className="absolute top-0 right-0 w-16 h-[3px] bg-primary skew-x-[-45deg] z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                        {/* Contenido */}
-                        <div className="p-4 flex flex-col flex-grow">
-                            <h3 className="font-bold text-base text-white leading-tight mb-1 group-hover:text-[#0EA5E9] transition-colors duration-200">
-                                <Link href={`/store/${product.id}`}>{product.name}</Link>
-                            </h3>
-
-                            {/* Stock */}
-                            <div className="flex items-center gap-1.5 mb-3">
-                                <Package className="h-3 w-3 text-slate-400" />
-                                <span className={`text-xs font-semibold ${product.stock > 10 ? 'text-green-400' : product.stock > 0 ? 'text-yellow-400' : 'text-red-400'}`}>
-                                    {product.stock <= 0 ? 'Sin stock' : product.stock <= 10 ? `Solo ${product.stock} disponibles` : `${product.stock} en stock`}
+                            {/* Badge de categoría */}
+                            <div className="absolute top-4 left-4 z-10">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider bg-white/90 text-primary border border-slate-100 backdrop-blur-md shadow-sm">
+                                    <Tag className="h-3 w-3" />
+                                    {product.category.name}
                                 </span>
                             </div>
 
-                            <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
-                                <p className="text-2xl font-black text-white">
-                                    ${product.price.toFixed(2)}
-                                </p>
-                                <button
-                                    onClick={() => handleAddToCart(product)}
-                                    disabled={product.stock <= 0}
-                                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${product.stock <= 0
-                                            ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
-                                            : 'bg-[#0EA5E9] text-white hover:bg-[#0EA5E9]/90 hover:shadow-[0_0_15px_rgba(14,165,233,0.4)] active:scale-95'
-                                        }`}
-                                >
-                                    <ShoppingCart className="h-3.5 w-3.5" />
-                                    {product.stock <= 0 ? (t('outOfStock') || 'Sin Stock') : (t('add') || 'Añadir')}
-                                </button>
+                            {/* Imagen */}
+                            <Link href={`/store/${product.id}`} className="block relative">
+                                <div className="aspect-[4/3] overflow-hidden bg-slate-50">
+                                    <Image
+                                        src={product.imageUrl || '/placeholder-scooter.jpg'}
+                                        alt={product.name}
+                                        width={400}
+                                        height={300}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                    />
+                                </div>
+                            </Link>
+
+                            {/* Contenido */}
+                            <div className="p-6 flex flex-col flex-grow relative z-10 bg-white">
+                                <h3 className="font-bold text-lg text-slate-900 leading-tight mb-2 group-hover:text-primary transition-colors duration-300">
+                                    <Link href={`/store/${product.id}`}>{product.name}</Link>
+                                </h3>
+
+                                {/* Stock */}
+                                <div className="flex items-center gap-2 mb-4">
+                                    <div className={`p-1 rounded-full ${product.stock > 10 ? 'bg-accent/10 text-accent' : product.stock > 0 ? 'bg-yellow-100 text-yellow-600' : 'bg-red-100 text-red-600'}`}>
+                                        <Package className="h-3 w-3" />
+                                    </div>
+                                    <span className={`text-xs font-bold tracking-wide uppercase ${product.stock > 10 ? 'text-accent' : product.stock > 0 ? 'text-yellow-600' : 'text-red-500'}`}>
+                                        {product.stock <= 0 ? 'Agotado' : product.stock <= 10 ? `Últimos ${product.stock}` : `${product.stock} Disponible`}
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                                    <p className="text-2xl font-black text-slate-900 tracking-tight">
+                                        ${product.price.toFixed(2)}
+                                    </p>
+                                    <button
+                                        onClick={() => handleAddToCart(product)}
+                                        disabled={product.stock <= 0}
+                                        className={`flex items-center justify-center h-12 w-12 rounded-2xl transition-all duration-300 ${product.stock <= 0
+                                            ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                            : 'bg-primary text-white hover:bg-primary/90 hover:shadow-lg hover:-translate-y-1 active:scale-95'
+                                            }`}
+                                        title={product.stock <= 0 ? (t('outOfStock') || 'Sin Stock') : (t('add') || 'Añadir')}
+                                    >
+                                        <ShoppingCart className="h-5 w-5" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Estado vacío */}
-            {filteredProducts.length === 0 && (
-                <div className="text-center py-20">
-                    <Search className="h-12 w-12 text-slate-600 mx-auto mb-4" />
-                    <p className="text-slate-400 text-lg font-semibold">No se encontraron productos</p>
-                    <p className="text-slate-500 text-sm mt-1">Intenta con otro término o categoría</p>
+                    ))}
                 </div>
-            )}
-        </>
+
+                {/* Estado vacío */}
+                {filteredProducts.length === 0 && (
+                    <div className="text-center py-24 bg-white border border-slate-200 rounded-3xl mt-6 shadow-sm">
+                        <div className="w-20 h-20 mx-auto bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center mb-6">
+                            <Search className="h-8 w-8 text-slate-300" />
+                        </div>
+                        <h3 className="text-slate-900 text-xl font-black mb-2">Sin resultados</h3>
+                        <p className="text-slate-500 text-sm font-medium">No encontramos productos que coincidan con tu búsqueda.</p>
+                        <button
+                            onClick={() => { setSearchQuery(""); setSelectedCategory("all"); }}
+                            className="mt-6 text-primary hover:text-primary/80 font-bold text-sm transition-colors"
+                        >
+                            Limpiar filtros
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 }

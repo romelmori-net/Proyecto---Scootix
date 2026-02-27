@@ -2,27 +2,27 @@
   "placeholderImages": [
     {
       "id": "hero-scooter",
-      "description": "Modern electric scooter on an urban street",
-      "imageUrl": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop&q=80",
-      "imageHint": "electric scooter urban"
+      "description": "Futuristic premium electric scooter in a modern urban setting",
+      "imageUrl": "/images/hero.png",
+      "imageHint": "premium electric scooter hero"
     },
     {
       "id": "service-maintenance",
-      "description": "Scooter being serviced by a technician",
-      "imageUrl": "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400&h=300&fit=crop&q=80",
-      "imageHint": "scooter maintenance"
+      "description": "Premium electric scooter being serviced in a high-tech workshop",
+      "imageUrl": "/images/services/maintenance.png",
+      "imageHint": "electric scooter maintenance service"
     },
     {
       "id": "service-repair",
-      "description": "Mechanic tools and scooter parts on workbench",
-      "imageUrl": "https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?w=400&h=300&fit=crop&q=80",
-      "imageHint": "repair tools workshop"
+      "description": "Close up of electric scooter motor and wheel repair with professional tools",
+      "imageUrl": "/images/services/repair.png",
+      "imageHint": "scooter repair workshop motor"
     },
     {
       "id": "service-diagnostics",
-      "description": "Electronic diagnostics on an electric scooter",
-      "imageUrl": "https://images.unsplash.com/photo-1609919357949-48259b71f26a?w=400&h=300&fit=crop&q=80",
-      "imageHint": "scooter diagnostics"
+      "description": "Electric scooter connected to a laptop for high-tech electronic diagnostics",
+      "imageUrl": "/images/services/diagnostics.png",
+      "imageHint": "electronic diagnostics scooter laptop"
     },
     {
       "id": "product-battery",
