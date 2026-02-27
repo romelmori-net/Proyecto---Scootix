@@ -6,6 +6,8 @@ import { ShoppingCart } from "lucide-react";
 import { getProducts, getCategories } from "@/lib/actions/products";
 import { StoreClient } from "./store-client";
 
+export const dynamic = "force-dynamic";
+
 export default async function StorePage() {
   const products = await getProducts();
   const categories = await getCategories();

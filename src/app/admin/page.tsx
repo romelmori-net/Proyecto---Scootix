@@ -3,6 +3,8 @@ import { Package, ShoppingCart, Users, DollarSign, Star, Mail } from "lucide-rea
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
     const productCount = await prisma.product.count();
     const orderCount = await prisma.order.count();
