@@ -47,11 +47,10 @@ export default function SignInPage() {
                 });
 
                 if (session?.user?.role === "ADMIN") {
-                    router.push("/admin");
+                    window.location.href = "/admin";
                 } else {
-                    router.push("/");
+                    window.location.href = "/";
                 }
-                router.refresh();
             }
         } catch (error) {
             toast({
