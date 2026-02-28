@@ -11,7 +11,8 @@ import {
     Settings,
     LogOut,
     ChevronLeft,
-    Mail
+    Mail,
+    ListChecks
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
@@ -19,6 +20,7 @@ import { signOut } from "next-auth/react";
 const menuItems = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Productos", href: "/admin/products", icon: Package },
+    { name: "Categorías", href: "/admin/categories", icon: ListChecks },
     { name: "Pedidos", href: "/admin/orders", icon: ShoppingCart },
     { name: "Mensajes", href: "/admin/messages", icon: Mail },
     { name: "Usuarios", href: "/admin/users", icon: Users },
