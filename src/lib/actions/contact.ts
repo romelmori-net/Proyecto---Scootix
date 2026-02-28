@@ -1,6 +1,13 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+async function isAdmin() {
+    const session = await getServerSession(authOptions);
+    return session?.user && (session.user as any).role === "ADMIN";
+}
 
 export async function saveContactMessage(data: { name: string; email: string; subject: string; message: string }) {
     try {
@@ -20,6 +27,7 @@ export async function saveContactMessage(data: { name: string; email: string; su
 }
 
 export async function getContactMessages() {
+    if (!(await isAdmin())) throw new Error("Acceso denegado");
     try {
         const messages = await prisma.contactMessage.findMany({
             orderBy: {
@@ -34,6 +42,7 @@ export async function getContactMessages() {
 }
 
 export async function deleteContactMessage(id: string) {
+    if (!(await isAdmin())) throw new Error("Acceso denegado");
     try {
         await prisma.contactMessage.delete({
             where: { id }

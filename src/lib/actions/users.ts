@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import bcrypt from 'bcryptjs';
 
 async function isAdmin() {
     const session = await getServerSession(authOptions);
@@ -29,7 +30,6 @@ export async function createUser(data: any) {
     if (!(await isAdmin())) throw new Error("Acceso denegado");
 
     try {
-        const bcrypt = require('bcrypt');
         const hashedPassword = await bcrypt.hash(data.password, 10);
 
         const user = await prisma.user.create({

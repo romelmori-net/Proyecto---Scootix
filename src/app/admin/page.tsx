@@ -11,8 +11,10 @@ export default async function AdminDashboard() {
     const userCount = await prisma.user.count();
     const messageCount = await prisma.contactMessage.count();
 
-    // En un caso real, sumaríamos los totales de las órdenes
-    const totalRevenue = 0;
+    const orders = await prisma.order.findMany({
+        select: { total: true }
+    });
+    const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
 
     const stats = [
         { name: "Ventas Totales", value: `$${totalRevenue}`, icon: DollarSign, color: "text-green-600" },

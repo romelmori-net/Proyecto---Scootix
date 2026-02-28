@@ -2,6 +2,13 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+async function isAdmin() {
+    const session = await getServerSession(authOptions);
+    return session?.user && (session.user as any).role === "ADMIN";
+}
 
 export async function getCategories() {
     try {
@@ -18,6 +25,7 @@ export async function getCategories() {
 }
 
 export async function createCategory(name: string) {
+    if (!(await isAdmin())) throw new Error("Acceso denegado");
     try {
         const category = await prisma.category.create({
             data: { name }
@@ -32,6 +40,7 @@ export async function createCategory(name: string) {
 }
 
 export async function deleteCategory(id: string) {
+    if (!(await isAdmin())) throw new Error("Acceso denegado");
     try {
         // Verificar si hay productos usando esta categoría
         const productCount = await prisma.product.count({

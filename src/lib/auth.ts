@@ -3,12 +3,27 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import Google from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma),
     providers: [
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID || "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+            // Permitir que Google devuelva el perfil completo incluyendo el email
+            profile(profile) {
+                const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map(e => e.trim().toLowerCase());
+                const isDefaultAdmin = adminEmails.includes(profile.email.toLowerCase());
+
+                return {
+                    id: profile.sub,
+                    name: profile.name,
+                    email: profile.email,
+                    image: profile.picture,
+                    role: isDefaultAdmin ? "ADMIN" : "CUSTOMER",
+                }
+            },
         }),
         CredentialsProvider({
             name: "credentials",
@@ -17,36 +32,28 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                console.log("Intentando autorizar:", credentials?.email);
                 if (!credentials?.email || !credentials?.password) {
-                    console.log("Faltan credenciales");
                     throw new Error('Credenciales inválidas');
                 }
 
                 try {
                     const user = await prisma.user.findUnique({
-                        where: {
-                            email: credentials.email
-                        }
+                        where: { email: credentials.email }
                     });
 
-                    if (!user) {
-                        console.log("Usuario no encontrado en la DB");
-                        throw new Error('El usuario no existe');
+                    if (!user || !user.password) {
+                        throw new Error('El usuario no existe o usa otro método de acceso');
                     }
 
-                    console.log("Usuario encontrado, verificando contraseña...");
                     const isPasswordCorrect = await bcrypt.compare(
                         credentials.password,
-                        user.password || ''
+                        user.password
                     );
 
                     if (!isPasswordCorrect) {
-                        console.log("Contraseña incorrecta");
                         throw new Error('Contraseña incorrecta');
                     }
 
-                    console.log("Autorización exitosa para:", user.email);
                     return user;
                 } catch (error) {
                     console.error("Error en authorize:", error);
@@ -62,7 +69,7 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt"
     },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 token.role = (user as any).role;
                 token.id = user.id;

@@ -1,6 +1,13 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+async function isAdmin() {
+    const session = await getServerSession(authOptions);
+    return session?.user && (session.user as any).role === "ADMIN";
+}
 
 export async function getProducts() {
     try {
@@ -45,6 +52,7 @@ export async function getProductById(id: string) {
 }
 
 export async function createProduct(data: any) {
+    if (!(await isAdmin())) throw new Error("Acceso denegado");
     try {
         const product = await prisma.product.create({
             data: {
@@ -64,6 +72,7 @@ export async function createProduct(data: any) {
 }
 
 export async function updateProduct(id: string, data: any) {
+    if (!(await isAdmin())) throw new Error("Acceso denegado");
     try {
         const product = await prisma.product.update({
             where: { id },
@@ -84,6 +93,7 @@ export async function updateProduct(id: string, data: any) {
 }
 
 export async function deleteProduct(id: string) {
+    if (!(await isAdmin())) throw new Error("Acceso denegado");
     try {
         await prisma.product.delete({
             where: { id }

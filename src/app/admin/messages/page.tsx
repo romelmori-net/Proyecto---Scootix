@@ -3,6 +3,8 @@ import { MessagesTable } from "./messages-table";
 import { Mail, Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminMessagesPage() {
     const messages = await getContactMessages();
 
