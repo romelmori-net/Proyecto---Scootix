@@ -1,11 +1,18 @@
 import { PrismaClient } from '@prisma/client'
 import { products } from '../src/lib/data'
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcryptjs'
 import * as dotenv from 'dotenv'
 
-dotenv.config({ path: '.env.local' })
+dotenv.config({ path: '.env' })
+dotenv.config({ path: '.env.local', override: true })
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+    datasources: {
+        db: {
+            url: process.env.NEON_URL || process.env.DATABASE_URL
+        }
+    }
+})
 
 async function main() {
     console.log('Iniciando seed...')

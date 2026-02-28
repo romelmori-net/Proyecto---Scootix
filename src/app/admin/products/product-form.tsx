@@ -106,6 +106,16 @@ export function ProductForm({
             imageUrl: finalImageUrl
         };
 
+        if (!formData.categoryId) {
+            toast({
+                title: "Categoría requerida",
+                description: "Por favor, selecciona una categoría para el producto.",
+                variant: "destructive",
+            });
+            setLoading(false);
+            return;
+        }
+
         const result = product
             ? await updateProduct(product.id, productData)
             : await createProduct(productData);
