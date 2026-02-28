@@ -10,8 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Settings, Bell, Shield, Palette, Save, Globe, Smartphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export const dynamic = "force-dynamic";
-
 export default function SettingsPage() {
     const { toast } = useToast();
     const [loading, setLoading] = useState(false);

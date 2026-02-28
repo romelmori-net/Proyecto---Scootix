@@ -24,7 +24,7 @@ const menuItems = [
     { name: "Pedidos", href: "/admin/orders", icon: ShoppingCart },
     { name: "Mensajes", href: "/admin/messages", icon: Mail },
     { name: "Usuarios", href: "/admin/users", icon: Users },
-    { name: "Ajustes", href: "/admin/settings", icon: Settings },
+    { name: "Ajustes", href: "/admin/ajustes", icon: Settings },
 ];
 
 export function Sidebar() {
