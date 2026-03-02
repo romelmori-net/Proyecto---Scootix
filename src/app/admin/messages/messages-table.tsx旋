@@ -1,0 +1,180 @@
+"use client";
+
+import { deleteContactMessage } from "@/lib/actions/contact";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import {
+    Mail,
+    User,
+    MessageSquare,
+    Clock,
+    Trash2,
+    Send,
+    ArrowUpRight,
+    CheckCircle2
+} from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+export function MessagesTable({ messages }: { messages: any[] }) {
+    const { toast } = useToast();
+    const router = useRouter();
+    const [selectedMessage, setSelectedMessage] = useState<any>(null);
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("¿Estás seguro de que deseas eliminar este mensaje?")) return;
+        const result = await deleteContactMessage(id);
+        if (result.success) {
+            toast({ title: "Mensaje eliminado", description: "La consulta ha sido borrada correctamente." });
+            router.refresh();
+        } else {
+            toast({ title: "Error", description: result.error, variant: "destructive" });
+        }
+    };
+
+    return (
+        <div className="space-y-6">
+            {messages.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-32 bg-[#111a2d] rounded-[3rem] border border-dashed border-[#2a3f5f]">
+                    <Mail className="h-16 w-16 text-slate-700 mb-6" />
+                    <h3 className="text-2xl font-black text-slate-400 tracking-tight">Bandeja de Entrada Vacía</h3>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 gap-5">
+                    {messages.map((msg) => (
+                        <div 
+                            key={msg.id}
+                            onClick={() => setSelectedMessage(msg)}
+                            className="group relative bg-[#111a2d] border border-[#2a3f5f] rounded-[2rem] p-6 hover:border-[#1a6aff]/50 transition-all duration-500 cursor-pointer overflow-hidden shadow-xl"
+                        >
+                            {/* Brand Signature Line Decor */}
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#1a6aff] via-[#1df542] to-[#1a6aff] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                            <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                <div className="flex items-center gap-5">
+                                    <div className="h-14 w-14 rounded-2xl bg-[#0d1320] flex items-center justify-center border border-[#2a3f5f] shadow-[0_0_15px_rgba(26,106,255,0.1)] group-hover:shadow-[0_0_20px_rgba(26,106,255,0.3)] transition-all">
+                                        <User className="h-6 w-6 text-[#1a6aff] group-hover:scale-110 transition-transform duration-500" />
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-1">
+                                            <h3 className="text-lg font-black text-white tracking-tight">{msg.name}</h3>
+                                            <Badge className={cn(
+                                                "rounded-lg px-2 py-0.5 border font-black text-[9px] uppercase tracking-widest",
+                                                msg.status === "PENDING" ? "bg-[#ffb800]/10 text-[#ffb800] border-[#ffb800]/20" : "bg-[#1df542]/10 text-[#1df542] border-[#1df542]/20"
+                                            )}>
+                                                {msg.status === "PENDING" ? "Pendiente" : "Leído"}
+                                            </Badge>
+                                        </div>
+                                        <p className="text-sm text-slate-500 font-medium">{msg.email}</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex-1 md:px-10">
+                                    <p className="text-white font-bold mb-1 line-clamp-1 group-hover:text-[#1a6aff] transition-colors">{msg.subject}</p>
+                                    <p className="text-slate-500 text-sm font-medium line-clamp-1 italic opacity-60">"{msg.message}"</p>
+                                </div>
+
+                                <div className="flex items-center gap-6">
+                                    <div className="text-right hidden xl:block">
+                                        <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest mb-1">Recibido</p>
+                                        <p className="text-slate-400 font-bold text-xs">{new Date(msg.createdAt).toLocaleDateString()}</p>
+                                    </div>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="h-12 w-12 rounded-2xl bg-[#0d1320] text-slate-400 hover:text-[#1a6aff] hover:bg-[#1a6aff]/10 border border-[#2a3f5f] transition-all"
+                                    >
+                                        <ArrowUpRight className="h-5 w-5" />
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {/* Message Detail Dialog PRO */}
+            <Dialog open={!!selectedMessage} onOpenChange={() => setSelectedMessage(null)}>
+                <DialogContent className="max-w-2xl rounded-[3rem] border border-[#2a3f5f] bg-[#0d1320] p-0 overflow-hidden shadow-2xl dark font-sans">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#1a6aff]/10 blur-[80px] rounded-full -mr-32 -mt-32" />
+                    
+                    <DialogHeader className="p-10 relative border-b border-[#2a3f5f]">
+                        <div className="flex items-center gap-6">
+                            <div className="h-16 w-16 rounded-3xl bg-[#1a6aff]/10 text-[#1a6aff] flex items-center justify-center border border-[#1a6aff]/20 shadow-[0_0_20px_rgba(26,106,255,0.2)]">
+                                <MessageSquare className="h-8 w-8" />
+                            </div>
+                            <div>
+                                <DialogTitle className="text-3xl font-black text-white tracking-tighter">Detalle de <span className="text-[#1a6aff] italic">Mensaje</span></DialogTitle>
+                                <p className="text-slate-500 text-xs font-black uppercase tracking-[0.2em] mt-1">ID: {selectedMessage?.id?.slice(0, 8)}</p>
+                            </div>
+                        </div>
+                    </DialogHeader>
+
+                    <div className="p-10 space-y-8 relative">
+                        <div className="grid grid-cols-2 gap-6">
+                            <div className="p-6 rounded-[2rem] bg-[#111a2d] border border-[#2a3f5f]">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#1a6aff]/60 mb-3">Remitente</p>
+                                <p className="font-black text-white text-lg leading-tight">{selectedMessage?.name}</p>
+                                <p className="text-sm text-slate-500 font-bold mt-1">{selectedMessage?.email}</p>
+                            </div>
+                            <div className="p-6 rounded-[2rem] bg-[#111a2d] border border-[#2a3f5f]">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#1a6aff]/60 mb-3">Fecha de Envío</p>
+                                <p className="font-black text-white text-lg leading-tight">
+                                    {selectedMessage && new Date(selectedMessage.createdAt).toLocaleDateString()}
+                                </p>
+                                <p className="text-sm text-slate-500 font-bold mt-1">
+                                    {selectedMessage && new Date(selectedMessage.createdAt).toLocaleTimeString()}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="p-8 rounded-[2rem] bg-[#111a2d] border border-[#2a3f5f] space-y-4">
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#1df542] mb-3">Asunto del Mensaje</p>
+                                <p className="text-xl font-black text-white tracking-tight leading-tight">{selectedMessage?.subject}</p>
+                            </div>
+                            <div className="h-px bg-[#2a3f5f]/50" />
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3">Contenido Integral</p>
+                                <p className="text-slate-300 leading-relaxed font-medium text-lg italic">
+                                    "{selectedMessage?.message}"
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 pt-4">
+                            <Button 
+                                variant="ghost" 
+                                className="flex-1 h-14 rounded-2xl font-black uppercase text-xs tracking-widest border border-[#2a3f5f] text-slate-400 hover:text-white"
+                                onClick={() => setSelectedMessage(null)}
+                            >
+                                Cerrar
+                            </Button>
+                            <Button className="flex-[2] h-14 rounded-2xl font-black uppercase text-[10px] tracking-widest bg-gradient-to-r from-[#1a6aff] to-[#1df542] text-white shadow-2xl shadow-[#1a6aff]/20 hover:shadow-[#1a6aff]/40 hover:scale-[1.02] transition-all border-none" asChild>
+                                <a href={`mailto:${selectedMessage?.email}?subject=Re: ${selectedMessage?.subject}`}>
+                                    Responder por Email <Send className="ml-3 h-4 w-4" />
+                                </a>
+                            </Button>
+                            <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={() => { handleDelete(selectedMessage.id); setSelectedMessage(null); }}
+                                className="h-14 w-14 rounded-2xl bg-[#ff3b5c]/5 text-[#ff3b5c] hover:bg-[#ff3b5c] hover:text-white transition-all shadow-inner border border-[#ff3b5c]/10"
+                            >
+                                <Trash2 className="h-5 w-5" />
+                            </Button>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </div>
+    );
+}

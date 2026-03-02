@@ -23,9 +23,17 @@ export async function POST(request: NextRequest) {
         const fileName = `${uuidv4()}.${fileExtension}`;
 
         // Ruta absoluta para guardar el archivo
-        const path = join(process.cwd(), "public", "uploads", fileName);
+        const uploadDir = join(process.cwd(), "public", "uploads");
+        const path = join(uploadDir, fileName);
 
-        await writeFile(path, buffer);
+        // Asegurarse de que el directorio existe
+        try {
+            await writeFile(path, buffer);
+        } catch (e) {
+            const { mkdir } = await import("fs/promises");
+            await mkdir(uploadDir, { recursive: true });
+            await writeFile(path, buffer);
+        }
 
         // Devolver la ruta relativa pública
         return NextResponse.json({

@@ -1,64 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+
+  html,
+  body {
+    @apply scrollbar-hide;
+  }
+
   :root {
-    --background: 210 40% 98%;
-    /* #f8fafc slate-50 - Gris ordenado y estático */
-    --foreground: 222.2 84% 4.9%;
-    /* Slate-900 */
+    --background: 220 33% 98%;
+    --foreground: 224 71% 4%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 224 71% 4%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 211 100% 50%;
-    /* #007BFF - Azul eléctrico */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 20%;
-    /* #333333 - Gris oscuro */
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 120 61% 50%;
-    /* #32CD32 - Verde lima */
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 224 71% 4%;
+    --primary: 221 100% 55%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 142 90% 54%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 350 100% 62%;
     --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 211 100% 50%;
-    --radius: 1rem;
-    --navbar-bg: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 100% 55%;
+    --radius: 1.25rem;
+
+    /* Scootix Brand Hex - VIBRANT & HOMOGENEOUS */
+    --brand-blue: #1a6aff;
+    --brand-blue-glow: rgba(26, 106, 255, 0.4);
+    --brand-green: #1df542;
+    --brand-green-glow: rgba(29, 245, 66, 0.4);
+    --brand-dark-bg: #0F172A;
+    /* Alineado con Header Público */
+    --brand-card: #1E293B;
+    /* Tono intermedio elegante */
+    --brand-border: #334155;
+    /* Borde más visible y homogéneo */
   }
 
   .dark {
-    --background: 0 0% 4%;
-    /* #0A0A0A - Negro profundo */
-    --foreground: 0 0% 98%;
-    --card: 0 0% 7%;
-    /* #121212 */
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 211 100% 50%;
-    /* #007BFF - Azul eléctrico */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 20%;
-    /* #333333 - Gris oscuro */
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 120 61% 50%;
-    /* #32CD32 - Verde lima */
-    --accent-foreground: 0 0% 4%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    /* #333333 - Bordes Gris oscuro */
-    --input: 0 0% 20%;
-    --ring: 211 100% 50%;
-    --navbar-bg: 0 0% 4%;
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 12%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 221 100% 55%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 142 90% 54%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 350 100% 62%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 221 39% 22%;
+    --input: 221 39% 22%;
+    --ring: 221 100% 55%;
+
+    /* Pending Semantic */
+    --pending: 43 100% 50%;
   }
 }
 
@@ -69,5 +79,72 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px var(--brand-blue-glow);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 20px var(--brand-green-glow);
+  }
+
+  .gradient-brand {
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+  }
+
+  .text-gradient-brand {
+    background: linear-gradient(135deg, #1a6aff, #1df542);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ⚡ Shimmer para skeletons de loading */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  /* Smooth page transitions */
+  .page-transition {
+    animation: fadeInUp 0.3s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

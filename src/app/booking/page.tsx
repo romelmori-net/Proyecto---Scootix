@@ -13,21 +13,68 @@ import { useToast } from "@/hooks/use-toast";
 import { services } from "@/lib/data";
 import { useLanguage } from "@/context/language-context";
 import { CalendarDays, Clock, User, Mail, Phone, Wrench, Zap, CheckCircle2 } from "lucide-react";
+import { createBooking } from "@/lib/actions/bookings";
 
 export default function BookingPage() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [submitted, setSubmitted] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    toast({
-      title: t('appointmentBookedToastTitle') || "¡Cita Reservada!",
-      description: t('appointmentBookedToastDescription') || "Te contactaremos para confirmar tu cita.",
-    });
-    setTimeout(() => setSubmitted(false), 4000);
+    if (isPending) return;
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      service: formData.get("service") as string,
+      date: date || new Date(),
+      time: formData.get("time") as string,
+    };
+
+    if (!data.service || !data.time) {
+      toast({
+        title: "Error",
+        description: "Por favor selecciona un servicio y una hora.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsPending(true);
+    try {
+      const result = await createBooking(data);
+      if (result.success) {
+        setSubmitted(true);
+        toast({
+          title: t('appointmentBookedToastTitle') || "¡Cita Reservada!",
+          description: t('appointmentBookedToastDescription') || "Te contactaremos para confirmar tu cita.",
+          className: "bg-green-500 text-white font-bold"
+        });
+        setTimeout(() => setSubmitted(false), 4000);
+        (e.target as HTMLFormElement).reset();
+        setDate(new Date());
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "No se pudo procesar la reserva",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error("Error en booking:", error);
+      toast({
+        title: "Error",
+        description: "Ocurrió un error al procesar tu reserva.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   const inputClass = "w-full bg-white/5 border border-[#0EA5E9]/30 text-white placeholder:text-slate-500 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#0EA5E9] focus:ring-2 focus:ring-[#0EA5E9]/20 transition-all duration-300";
@@ -88,6 +135,7 @@ export default function BookingPage() {
                 </label>
                 <input
                   id="name"
+                  name="name"
                   placeholder={t('fullNamePlaceholder') || 'Juan Pérez'}
                   required
                   className={inputClass}
@@ -101,6 +149,7 @@ export default function BookingPage() {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder={t('emailAddressPlaceholder') || 'juan@ejemplo.com'}
                   required
@@ -115,6 +164,7 @@ export default function BookingPage() {
                 </label>
                 <input
                   id="phone"
+                  name="phone"
                   type="tel"
                   placeholder={t('phoneNumberPlaceholder') || '(123) 456-7890'}
                   required
@@ -127,7 +177,7 @@ export default function BookingPage() {
                   <Wrench className="h-3 w-3" />
                   {t('serviceType') || 'Tipo de Servicio'}
                 </label>
-                <Select required>
+                <Select name="service" required>
                   <SelectTrigger className="w-full bg-white/5 border-[#0EA5E9]/30 text-white rounded-xl h-12 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9]">
                     <SelectValue placeholder={t('selectServicePlaceholder') || 'Selecciona un servicio'} />
                   </SelectTrigger>
@@ -135,7 +185,7 @@ export default function BookingPage() {
                     {services.map((service) => (
                       <SelectItem
                         key={service.title}
-                        value={t(service.title)}
+                        value={service.title}
                         className="hover:bg-[#0EA5E9]/10 focus:bg-[#0EA5E9]/10 rounded-lg cursor-pointer"
                       >
                         {t(service.title)}
@@ -179,7 +229,7 @@ export default function BookingPage() {
                   <Clock className="h-3 w-3" />
                   {t('selectTime') || 'Selecciona una Hora'}
                 </label>
-                <Select>
+                <Select name="time" required>
                   <SelectTrigger className="w-full bg-white/5 border-[#0EA5E9]/30 text-white rounded-xl h-12 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9]">
                     <SelectValue placeholder={t('selectTimePlaceholder') || 'Selecciona un horario'} />
                   </SelectTrigger>
@@ -200,12 +250,18 @@ export default function BookingPage() {
               {/* Botón de submit */}
               <button
                 type="submit"
+                disabled={isPending}
                 className={`w-full mt-2 h-14 rounded-2xl font-black text-base transition-all duration-300 flex items-center justify-center gap-3 ${submitted
-                    ? 'bg-green-500/20 border-2 border-green-500/50 text-green-400'
-                    : 'bg-gradient-to-r from-[#0EA5E9] to-[#2DD4BF] text-white hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] hover:scale-[1.02] active:scale-[0.98]'
-                  }`}
+                  ? 'bg-green-500/20 border-2 border-green-500/50 text-green-400'
+                  : 'bg-gradient-to-r from-[#0EA5E9] to-[#2DD4BF] text-white hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] hover:scale-[1.02] active:scale-[0.98]'
+                  } ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {submitted ? (
+                {isPending ? (
+                  <>
+                    <Clock className="h-5 w-5 animate-spin" />
+                    Procesando...
+                  </>
+                ) : submitted ? (
                   <>
                     <CheckCircle2 className="h-5 w-5" />
                     ¡Cita Confirmada!

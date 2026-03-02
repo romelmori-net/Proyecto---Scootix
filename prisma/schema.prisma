@@ -58,11 +58,14 @@ model User {
   password      String?
   image         String?
   role          UserRole  @default(CUSTOMER)
+  verificationCode        String?
+  verificationCodeExpires DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
   orders        Order[]
+  bookings      Booking[]
 }
 
 model VerificationToken {
@@ -134,4 +137,32 @@ model ContactMessage {
   message   String
   status    String   @default("PENDING") // PENDING, READ, REPLIED
   createdAt DateTime @default(now())
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  name      String
+  email     String
+  phone     String
+  service   String
+  date      DateTime
+  time      String
+  status    String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED, COMPLETED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Configuración global editable desde Admin
+model SiteSettings {
+  id          String  @id @default("1") // singleton
+  businessName String @default("Scootix Hub")
+  email       String  @default("info@scootix.com")
+  phone       String  @default("972 137 565")
+  whatsapp    String  @default("51972137565") // Formato internacional sin + ni espacios
+  address     String  @default("Av. La Marina 1234, Lima, Perú")
+  hours       String  @default("Lun–Sáb: 9am – 7pm")
+  whatsappMessage String @default("Hola! Me comunico desde Scootix 👋")
+  updatedAt   DateTime @updatedAt
 }

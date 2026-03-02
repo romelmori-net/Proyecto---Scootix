@@ -29,6 +29,8 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
+import { Search, ChevronLeft, ChevronRight as ChevronRightIcon } from "lucide-react"
+
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -54,31 +56,34 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div>
-      <div className="flex items-center py-4">
+    <div className="space-y-4">
+      {/* Search Bar - Compacta y Tecnológica */}
+      <div className="relative w-full md:w-[400px] group">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-[#2563EB] transition-colors" />
         <Input
-          placeholder="Filter by customer..."
+          placeholder="Filtrar por cliente..."
           value={(table.getColumn("customer")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("customer")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="w-full bg-[#1E293B]/60 border border-white/5 rounded-xl py-2.5 pl-12 pr-4 text-white placeholder:text-slate-500 focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]/40 transition-all font-medium text-xs h-10 shadow-sm"
         />
       </div>
-      <div className="rounded-md border">
+
+      <div className="rounded-3xl border border-white/5 bg-[#1E293B]/30 overflow-hidden shadow-xl backdrop-blur-md">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-[#111827]/50 border-b border-white/5">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="hover:bg-transparent border-white/5">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-[10px] font-black uppercase tracking-widest text-slate-500 h-12 px-6">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   )
                 })}
@@ -91,9 +96,10 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="border-white/5 hover:bg-[#2563EB]/5 transition-colors group"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="py-4 px-6 text-sm font-medium text-slate-400 group-hover:text-[#F1F5F9] transition-colors">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -101,31 +107,39 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                <TableCell colSpan={columns.length} className="h-32 text-center text-slate-400 font-bold uppercase tracking-widest text-xs">
+                  No se encontraron resultados.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-       <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+
+      <div className="flex items-center justify-between px-2 pt-2">
+        <div className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className="h-9 w-9 rounded-xl border border-white/5 bg-[#1E293B] text-slate-400 hover:bg-[#2563EB] hover:text-white disabled:opacity-20 shadow-sm"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className="h-9 w-9 rounded-xl border border-white/5 bg-[#1E293B] text-slate-400 hover:bg-[#2563EB] hover:text-white disabled:opacity-20 shadow-sm"
+          >
+            <ChevronRightIcon className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   )

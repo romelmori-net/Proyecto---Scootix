@@ -4,38 +4,35 @@ export function ScootixLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 80"
+      viewBox="0 0 400 100"
       {...props}
     >
-      {/* Scooter Drawing */}
-      <g stroke="hsl(var(--primary))" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        {/* Back wheel */}
-        <circle cx="30" cy="55" r="14" />
-        <circle cx="30" cy="55" r="4" fill="hsl(var(--primary))" stroke="none" />
-
+      {/* Scooter Silhouette */}
+      <g fill="#1a6aff">
+        {/* Wheels */}
+        <circle cx="45" cy="70" r="18" />
+        <circle cx="125" cy="70" r="18" />
         {/* Deck */}
-        <path d="M 30,55 L 85,55" />
-
-        {/* Front wheel arch/cover - simplified */}
-        <path d="M 85,55 A 14,14 0 1,1 113,55" fill="hsl(var(--primary))" stroke="none" />
-
-        {/* Stem */}
-        <path d="M 85,55 L 65,15" />
-
-        {/* Handle */}
-        <path d="M 50,20 L 75,12" />
+        <rect x="45" y="62" width="80" height="12" rx="4" />
+        {/* Stem and Handlebar */}
+        <path d="M 120,65 L 105,25 L 115,22 L 118,28 L 90,32 L 92,26 Z" />
+        <rect x="95" y="20" width="30" height="6" rx="3" transform="rotate(-15 110 23)" />
       </g>
 
       {/* Lightning Bolt */}
-      <path d="M 50,30 L 35,46 L 52,46 L 42,65 L 75,35 L 56,35 Z" fill="hsl(var(--accent))" stroke="none" />
+      <path
+        d="M 65,40 L 50,65 L 75,65 L 60,90 L 95,50 L 70,50 Z"
+        fill="#1df542"
+        transform="scale(0.7) translate(30, 10)"
+      />
 
       {/* Brand Text */}
-      <text x="125" y="46" fontFamily="inherit" fontSize="42" fontWeight="900" fill="currentColor" letterSpacing="-0.02em">
+      <text x="160" y="60" fontFamily="Inter, system-ui, sans-serif" fontSize="56" fontWeight="900" fill="currentColor" letterSpacing="-0.03em">
         Scootix
       </text>
 
       {/* Slogan */}
-      <text x="127" y="68" fontFamily="inherit" fontSize="15" fontWeight="600" fill="currentColor" opacity="0.8">
+      <text x="162" y="88" fontFamily="Inter, system-ui, sans-serif" fontSize="16" fontWeight="600" fill="currentColor" opacity="0.7">
         Energía que te mueve
       </text>
     </svg>

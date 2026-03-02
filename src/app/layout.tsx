@@ -8,10 +8,25 @@ import { LanguageProvider } from '@/context/language-context';
 import { CartProvider } from '@/context/cart-context';
 import { AuthProvider } from '@/components/providers/auth-provider';
 import { WhatsAppWidget } from '@/components/ui/whatsapp-widget';
+import { DM_Sans, Syne } from 'next/font/google';
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+  preload: true,
+});
+
+const syne = Syne({
+  subsets: ['latin'],
+  variable: '--font-syne',
+  display: 'swap',
+  preload: false,
+});
 
 export const metadata: Metadata = {
-  title: 'Scootix Hub - Your Electric Scooter Partner',
-  description: 'Reliable maintenance, repair, and parts for electric scooters. Energy that moves you.',
+  title: 'Scootix',
+  description: 'Mantenimiento, reparación y repuestos originales para scooters eléctricos. Energía que te mueve.',
 };
 
 export default function RootLayout({
@@ -20,13 +35,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="es" className="h-full" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+        <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
       </head>
-      <body className={cn("font-body antialiased h-full flex flex-col")}>
+      <body className={cn(dmSans.variable, syne.variable, "font-body antialiased h-full flex flex-col")}>
         <AuthProvider>
           <LanguageProvider>
             <CartProvider>

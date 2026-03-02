@@ -6,10 +6,16 @@ export async function PATCH(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { approved } = await req.json();
+        const data = await req.json();
         const testimonial = await prisma.testimonial.update({
             where: { id: params.id },
-            data: { approved }
+            data: {
+                name: data.name,
+                review: data.review,
+                rating: data.rating !== undefined ? Number(data.rating) : undefined,
+                image: data.image,
+                approved: data.approved
+            }
         });
         return NextResponse.json(testimonial);
     } catch (error) {

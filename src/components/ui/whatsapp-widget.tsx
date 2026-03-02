@@ -1,10 +1,23 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
+import { getSiteSettings } from "@/lib/actions/settings";
 
 export function WhatsAppWidget() {
     const { t } = useLanguage();
+    const [settings, setSettings] = useState<any>(null);
+
+    useEffect(() => {
+        getSiteSettings().then(setSettings);
+    }, []);
+
+    const handleWhatsAppClick = () => {
+        const phone = settings?.whatsapp || "51987654321";
+        const message = encodeURIComponent(settings?.whatsappMessage || "Hola! Me comunico desde Scootix 👋");
+        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+    };
 
     return (
         <div className="fixed bottom-6 right-6 z-[100] group animate-in fade-in slide-in-from-bottom-10 duration-1000">
@@ -18,7 +31,7 @@ export function WhatsAppWidget() {
 
             {/* Float Button */}
             <button
-                onClick={() => console.log("WhatsApp functionality pending...")}
+                onClick={handleWhatsAppClick}
                 className={cn(
                     "w-16 h-16 rounded-full bg-[#25D366] text-white shadow-[0_10px_40px_rgba(37,211,102,0.4)]",
                     "flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-90",

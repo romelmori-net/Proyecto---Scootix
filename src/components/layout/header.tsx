@@ -27,7 +27,7 @@ import { Globe } from "lucide-react";
 import { useCart } from "@/context/cart-context";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "next-auth/react";
-import { User } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 
 const serviceLinks = navLinks.filter(l => ['services', 'diyKits', 'subscriptions'].includes(l.name));
 const aboutLinks = navLinks.filter(l => ['about', 'contact', 'blog'].includes(l.name));
@@ -148,34 +148,43 @@ export function Header() {
           )}
 
           {status === "authenticated" ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full hover:bg-white/10 border border-white/10">
-                  <User className="h-6 w-6 text-primary" />
-                  <span className="sr-only">User menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64 rounded-2xl shadow-xl border-white/10 bg-[#0F172A] text-white p-2">
-                <div className="px-3 py-3 mb-2 bg-white/5 rounded-xl border border-white/5">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Cuenta Scootix</p>
-                  <p className="text-sm font-black truncate text-white">{session.user?.name || session.user?.email}</p>
-                </div>
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={() => signOut({ callbackUrl: '/' })}
+                className="hidden sm:flex items-center gap-2 bg-accent text-white hover:bg-accent/90 rounded-xl px-5 h-11 font-black uppercase text-[10px] tracking-widest transition-all shadow-lg shadow-accent/20"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                {t('signOut')}
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-11 w-11 rounded-full hover:bg-white/10 border border-white/10">
+                    <User className="h-6 w-6 text-primary" />
+                    <span className="sr-only">User menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-64 rounded-2xl shadow-xl border-white/10 bg-[#0F172A] text-white p-2">
+                  <div className="px-3 py-3 mb-2 bg-white/5 rounded-xl border border-white/5">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Cuenta Scootix</p>
+                    <p className="text-sm font-black truncate text-white">{session.user?.name || session.user?.email}</p>
+                  </div>
 
-                {isAdmin && (
-                  <DropdownMenuItem asChild className="bg-primary text-white font-black hover:bg-primary/90 transition-all rounded-xl mb-1 cursor-pointer py-3">
-                    <Link href="/admin">Panel de Administración</Link>
+                  {isAdmin && (
+                    <DropdownMenuItem asChild className="bg-primary text-white font-black hover:bg-primary/90 transition-all rounded-xl mb-1 cursor-pointer py-3">
+                      <Link href="/admin">Panel de Administración</Link>
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuItem asChild className="rounded-xl cursor-pointer hover:bg-white/10 py-3">
+                    <Link href="/profile">Mi Perfil</Link>
                   </DropdownMenuItem>
-                )}
 
-                <DropdownMenuItem asChild className="rounded-xl cursor-pointer hover:bg-white/10 py-3">
-                  <Link href="/admin/orders">{t('myOrders')}</Link>
-                </DropdownMenuItem>
-                <div className="h-px bg-white/10 my-2 mx-1" />
-                <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })} className="text-red-400 font-bold rounded-xl cursor-pointer hover:bg-red-500/10 py-3">
-                  {t('signOut')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuItem asChild className="rounded-xl cursor-pointer hover:bg-white/10 py-3">
+                    <Link href="/orders">{t('myOrders')}</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           ) : (
             <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex text-white font-black hover:bg-white/10 h-12 px-6 rounded-xl text-base">
               <Link href="/auth/signin">{t('signIn')}</Link>

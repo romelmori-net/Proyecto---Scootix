@@ -65,31 +65,32 @@ export function CreateUserDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>
+                <Button className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white border-none rounded-xl h-11 px-6 font-black uppercase text-[10px] tracking-widest transition-all">
                     <Plus className="mr-2 h-4 w-4" /> Nuevo Usuario
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] bg-[#111827] border-white/10 text-[#F1F5F9] rounded-[2rem] shadow-2xl backdrop-blur-xl">
                 <DialogHeader>
-                    <DialogTitle>Crear Nuevo Usuario</DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className="text-xl font-black tracking-tight">Crear Nuevo Usuario</DialogTitle>
+                    <DialogDescription className="text-slate-500 text-xs font-medium">
                         Añade un nuevo administrador o cliente al sistema.
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 py-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="name">Nombre</Label>
+                            <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-widest text-slate-500">Nombre</Label>
                             <Input
                                 id="name"
                                 placeholder="Ej: Juan Pérez"
                                 required
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                className="bg-[#1E293B]/60 border-white/5 text-white placeholder:text-slate-600 focus:ring-[#2563EB]/20 focus:border-[#2563EB]/40 rounded-xl h-11 px-4"
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email" className="text-[10px] font-black uppercase tracking-widest text-slate-500">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -97,36 +98,38 @@ export function CreateUserDialog() {
                                 required
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                className="bg-[#1E293B]/60 border-white/5 text-white placeholder:text-slate-600 focus:ring-[#2563EB]/20 focus:border-[#2563EB]/40 rounded-xl h-11 px-4"
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="password">Contraseña Temporal</Label>
+                            <Label htmlFor="password" className="text-[10px] font-black uppercase tracking-widest text-slate-500">Contraseña Temporal</Label>
                             <Input
                                 id="password"
                                 type="password"
                                 required
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                className="bg-[#1E293B]/60 border-white/5 text-white focus:ring-[#2563EB]/20 focus:border-[#2563EB]/40 rounded-xl h-11 px-4"
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="role">Rol del Sistema</Label>
+                            <Label htmlFor="role" className="text-[10px] font-black uppercase tracking-widest text-slate-500">Rol del Sistema</Label>
                             <Select
                                 value={formData.role}
                                 onValueChange={(value) => setFormData({ ...formData, role: value })}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger className="bg-[#1E293B]/60 border-white/5 text-white focus:ring-[#2563EB]/20 focus:border-[#2563EB]/40 rounded-xl h-11 px-4">
                                     <SelectValue placeholder="Selecciona un rol" />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="bg-[#111827] border-white/10 text-white">
                                     <SelectItem value="USER">CLIENTE (User)</SelectItem>
                                     <SelectItem value="ADMIN">ADMINISTRADOR</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                     </div>
-                    <DialogFooter>
-                        <Button type="submit" disabled={loading}>
+                    <DialogFooter className="pt-2">
+                        <Button type="submit" disabled={loading} className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white border-none rounded-xl h-12 font-black uppercase text-xs tracking-widest transition-all">
                             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Crear Usuario
                         </Button>
