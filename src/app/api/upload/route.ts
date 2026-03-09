@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import { join } from "path";
-import { v4 as uuidv4 } from "uuid";
+import { v2 as cloudinary } from "cloudinary";
+
+// Configurar Cloudinary (Reemplazar con tus credenciales o usar variables de entorno)
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request: NextRequest) {
     try {
@@ -15,36 +20,35 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Convertir el archivo a Buffer para Cloudinary
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Generar nombre de archivo único para evitar colisiones
-        const fileExtension = file.name.split('.').pop();
-        const fileName = `${uuidv4()}.${fileExtension}`;
+        // Subir a Cloudinary usando una promesa para manejar el callback
+        const uploadResult = await new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                    folder: "scootix_products",
+                    resource_type: "auto",
+                },
+                (error, result) => {
+                    if (error) reject(error);
+                    else resolve(result);
+                }
+            );
+            uploadStream.end(buffer);
+        }) as any;
 
-        // Ruta absoluta para guardar el archivo
-        const uploadDir = join(process.cwd(), "public", "uploads");
-        const path = join(uploadDir, fileName);
-
-        // Asegurarse de que el directorio existe
-        try {
-            await writeFile(path, buffer);
-        } catch (e) {
-            const { mkdir } = await import("fs/promises");
-            await mkdir(uploadDir, { recursive: true });
-            await writeFile(path, buffer);
-        }
-
-        // Devolver la ruta relativa pública
+        // Devolver la URL pública de la imagen en la nube
         return NextResponse.json({
             success: true,
-            url: `/uploads/${fileName}`
+            url: uploadResult.secure_url
         });
 
-    } catch (error) {
-        console.error("Error en la subida de imagen:", error);
+    } catch (error: any) {
+        console.error("Error en la subida de imagen a Cloudinary:", error);
         return NextResponse.json(
-            { error: "Error interno al subir la imagen" },
+            { error: "Error interno al subir la imagen a la nube", details: error.message },
             { status: 500 }
         );
     }
