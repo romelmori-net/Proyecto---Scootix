@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { LanguageProvider } from '@/context/language-context';
 import { CartProvider } from '@/context/cart-context';
 import { AuthProvider } from '@/components/providers/auth-provider';
+import { AutoLogoutProvider } from '@/components/providers/auto-logout-provider';
 import { WhatsAppWidget } from '@/components/ui/whatsapp-widget';
 import { DM_Sans, Syne } from 'next/font/google';
 
@@ -42,9 +43,10 @@ export default function RootLayout({
       </head>
       <body className={cn(dmSans.variable, syne.variable, "font-body antialiased h-full flex flex-col")}>
         <AuthProvider>
-          <LanguageProvider>
-            <CartProvider>
-              <Header />
+          <AutoLogoutProvider>
+            <LanguageProvider>
+              <CartProvider>
+                <Header />
               <main className="flex-grow">
                 {children}
               </main>
@@ -53,6 +55,7 @@ export default function RootLayout({
               <Toaster />
             </CartProvider>
           </LanguageProvider>
+          </AutoLogoutProvider>
         </AuthProvider>
       </body>
     </html>

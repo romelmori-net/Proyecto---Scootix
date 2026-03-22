@@ -66,7 +66,8 @@ export const authOptions: NextAuthOptions = {
         signIn: '/auth/signin',
     },
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
+        maxAge: 12 * 60, // 12 minutos de inactividad
     },
     callbacks: {
         async jwt({ token, user, trigger, session }) {
