@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -12,10 +12,22 @@ import * as Icons from "lucide-react";
 
 export default function SignInPage() {
     const router = useRouter();
+    const { data: session, status } = useSession();
     const { toast } = useToast();
     const [loading, setLoading] = useState(false);
     const [showEmailForm, setShowEmailForm] = useState(false);
     const [formData, setFormData] = useState({ email: "", password: "" });
+
+    // Redirigir inmediatamente si alguien que YA tiene sesión activa visita esta página
+    useEffect(() => {
+        if (status === "authenticated") {
+            if ((session?.user as any)?.role === "ADMIN") {
+                router.push("/admin");
+            } else {
+                router.push("/");
+            }
+        }
+    }, [status, session, router]);
 
     const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -168,11 +180,11 @@ export default function SignInPage() {
                 <div className="mt-12 text-center space-y-1">
                     <p className="text-slate-500 text-[11px] font-medium">Al continuar, aceptas nuestros</p>
                     <p className="text-[11px] font-medium">
-                        <Link href="/terms" className="text-slate-400 hover:text-white underline decoration-slate-600 underline-offset-2 transition-colors">
+                        <Link href="/terms" prefetch={false} className="text-slate-400 hover:text-white underline decoration-slate-600 underline-offset-2 transition-colors">
                             Términos de Servicio
                         </Link>
                         <span className="text-slate-600 mx-1.5">y</span>
-                        <Link href="/privacy" className="text-slate-400 hover:text-white underline decoration-slate-600 underline-offset-2 transition-colors">
+                        <Link href="/privacy" prefetch={false} className="text-slate-400 hover:text-white underline decoration-slate-600 underline-offset-2 transition-colors">
                             Política de Privacidad
                         </Link>.
                     </p>
