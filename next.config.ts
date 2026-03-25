@@ -47,6 +47,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com', // Imágenes de productos en la nube
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   // Compresión de respuestas
